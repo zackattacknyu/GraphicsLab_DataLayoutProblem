@@ -7,46 +7,58 @@ Access requirement:
 Data unit entity: ID, position, list of ARs use it
  
 position findMincut (position1, position2)
-        	return position with the minimum number of cuts
+	/*For the following line, we will use a centered interval tree:
+		http://en.wikipedia.org/wiki/Interval_tree#Centered_interval_tree
+	The time required for each query will be O(log n + n) with n=# of AR
+	Total time will thus be O(log n* N_0 + n*N_0) with N being the number of data units.
+	
+	Another idea:
+	Make an integer array and for each position, put number of overlapping ARs
+	Finding the min will thus just take O(n) time
+	*/
+	return position with the minimum number of cuts
  
 //Main algorithm
-for each AR, P
+for each Acesss Requirement P
 //first analyze head node
-        	//group adjacent units
-        	length = 0
-        	start = P->head
-        	end = P->head->next
-        	while end->position – start->position = 1
-                    	length + 1
-                    	start = start->next
-                    	end = end->next
-        	potential = P->head->next->position – P->head->position - length //seek time to be saved for this AR
-        	destination = findMincut(P->head->next->position, P->tail->position)
-        	benefit = potential
-        	//calculate cost
-        	for each other AR uses head to head + length, T
-                    	if P->head is T->head
-                                	benefit + min(potential, T->head->next->position – T->head->position - length)
-                                	chooseNewCopy
-                    	if P->head + length is T->tail
-                                	chooseOldCopy
-                    	if P->head NOT T->head AND P->head NOT T->tail
-                                	//decide which copy to use in T
-                                	if P->head is T->head->next
-                                	{
-                                            	difference1 = end->position – start->position
-                                            	difference2 = destination > T->tail->prev->position? Destination + length - T->tail->prev->position:0
-if difference1 > difference2
-    	chooseNewCopy
-                                	}
-else
-chooseOldCopy
-        	if no one chooseOldCopy
-                    	discard P->head
-                    	for each AR, A
-                                	if A->head->position < P->head->postion AND A->tail->position > start->postion
-                                            	benefit + length
-        	enQueue(P->head, length, destination, benefit)
+	//group adjacent units
+	length = 0
+	start = P.head
+	end = P.head.next
+	while end.position – start.position = 1 //seems to measure number of adjacent units
+		length = length + 1
+		start = start.next
+		end = end.next
+	potential = P.head.next.position – P.head.position - length //seek time to be saved for this AR
+	destination = findMincut(P.head.next.position, P.tail.position)
+	benefit = potential
+	//calculate cost
+	for each other AR uses head to head + length, T
+		if P.head is T.head
+			benefit + min(potential, T.head.next.position – T.head.position - length)
+			chooseNewCopy
+		if P.head + length is T.tail
+			chooseOldCopy
+		if P.head NOT T.head AND P.head NOT T.tail
+			//decide which copy to use in T
+			if P.head is T.head.next
+			{
+				difference1 = end.position – start.position
+				if destination > T.tail.prev.position
+					difference2 = Destination + length - T.tail.prev.position
+				else
+					difference2 = 0
+			}
+			if difference1 > difference2
+				chooseNewCopy
+			else
+				chooseOldCopy
+	if no one chooseOldCopy
+		discard P.head
+		for each AR, A
+			if A.head.position < P.head.postion AND A.tail.position > start.postion
+						benefit + length
+	enQueue(P.head, length, destination, benefit)
  
 //Execution
 (Node, length, destination) <- deQueue
@@ -54,6 +66,6 @@ Copy Node up to length to destination
 Update links for all Ts chooseNewCopy
 Update benefit for all Ps cover destination up to length
 If Node is discard
-        	Update benefit for all Ps cover Node up to length
+	Update benefit for all Ps cover Node up to length
 Reform Heap
 
