@@ -19,52 +19,72 @@ position findMincut (position1, position2)
 	Find out about the use of a graph here, as it does not seem necessary. 
 		Also, this is not a proper min cut as a cut of the graph would not 
 				necessary satisfy what we need.
+	It was implemented via brute force
 	*/
 	return position with the minimum number of cuts
- 
-//Main algorithm
-for each Acesss Requirement P
-//first analyze head node
-	//group adjacent units
+	
+number getLengthOfAdjacentUnitsHead(AccessRequirement T)
 	length = 0
-	start = P.head
-	end = P.head.next
-	while end.position – start.position = 1 //seems to measure number of adjacent units
+	start = T.head
+	end = T.head.next
+	while end.position – start.position = 1 //seems to measure number of adjacent units in the beginning of the AR
 		length = length + 1
 		start = start.next
 		end = end.next
-	potential = P.head.next.position – P.head.position - length //seek time to be saved for this AR
-	destination = findMincut(P.head.next.position, P.tail.position)
+	return length,start,end
+ 
+//Main algorithm
+for each Access Requirement P
+//first analyze head node
+	//group adjacent units
+	length,start,end = getLengthOfAdjacentUnitsHead(P)
+	//this ends up being length between next data unit and the head. that is the potential that can be saved.
+	potential = end.position – P.head.position - length
+	//we are finding the best position between the "end" node and the tail of the access requirement.
+	//putting the nodes before the end might reduce seek time, but we would reduce it better by putting it after the "end" node
+	destination = findMincut(end.position, P.tail.position)
 	benefit = potential
 	//calculate cost to other ARs
-	for each other AR uses head to head + length, T
-		if P.head is T.head
-			//what gets updated here?
-			benefit + min(potential, T.head.next.position – T.head.position - length)
+	for each other AR uses the data units P.head to (P.head + length), T
+		if P.head is T.head //in this case, they will both benefit
+			T.length,T.start,T.end = getLengthOfAdjacentUnitsHead(T);
+			//this gets us the benefit that we can guarantee, hence the min part
+			benefit = benefit + min(potential, T.end.position – T.start.position)
 			chooseNewCopy
-		if P.head + length is T.tail
+		//in this case, we will definitely want the old copy
+		else if any of the nodes in P.head to (P.head+length) is T.tail
 			chooseOldCopy
-		if P.head NOT T.head AND P.head NOT T.tail
+		else
+			difference1 = 0;
+			difference2 = 0;
 			//decide which copy to use in T
 			if P.head is T.head.next
 			{
-				difference1 = end.position – start.position
+				//difference1 is future benefit from using the new copy for T
+				difference1 = P.end.position – P.start.position
 				if destination > T.tail.prev.position
-					difference2 = Destination + length - T.tail.prev.position
+					//difference2 is future penalty from using the new copy for T
+					difference2 = destination + length - T.tail.prev.position
+					/* TODO: Figure out whether to consider P.length or T.length
+					*/
 				else
 					difference2 = 0
+				
+				if difference1 > difference2
+					chooseNewCopy
+				else
+					chooseOldCopy
 			}
-			if difference1 > difference2
-				chooseNewCopy
 			else
 				chooseOldCopy
+			
 	if no one chooseOldCopy
 		discard P.head
 		for each AR, A
-			if A.head.position < P.head.postion AND A.tail.position > start.postion
-						//what is getting updated here?
-						benefit + length
-	//add info to priority queue?
+			if A.head.position < P.head.position AND A.tail.position > start.postion
+				//by discarding, for each AR covering it, this is the benefit of deleting that data unit
+				benefit = benefit + P.length
+	//add info to priority queue
 	enQueue(P.head, length, destination, benefit)
  
 //Execution
@@ -75,4 +95,9 @@ Update benefit for all Ps cover destination up to length
 If Node is discard
 	Update benefit for all Ps cover Node up to length
 Reform Heap
+
+/*
+TODO: Update the above to reflect the benefit from updating the tail
+Before you do the execution, make sure both the head and tail are updated
+*/
 
