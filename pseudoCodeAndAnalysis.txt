@@ -15,6 +15,10 @@ position findMincut (position1, position2)
 	Another idea:
 	Make an integer array and for each position, put number of overlapping ARs
 	Finding the min will thus just take O(n) time
+	
+	Find out about the use of a graph here, as it does not seem necessary. 
+		Also, this is not a proper min cut as a cut of the graph would not 
+				necessary satisfy what we need.
 	*/
 	return position with the minimum number of cuts
  
@@ -32,9 +36,10 @@ for each Acesss Requirement P
 	potential = P.head.next.position – P.head.position - length //seek time to be saved for this AR
 	destination = findMincut(P.head.next.position, P.tail.position)
 	benefit = potential
-	//calculate cost
+	//calculate cost to other ARs
 	for each other AR uses head to head + length, T
 		if P.head is T.head
+			//what gets updated here?
 			benefit + min(potential, T.head.next.position – T.head.position - length)
 			chooseNewCopy
 		if P.head + length is T.tail
@@ -57,7 +62,9 @@ for each Acesss Requirement P
 		discard P.head
 		for each AR, A
 			if A.head.position < P.head.postion AND A.tail.position > start.postion
+						//what is getting updated here?
 						benefit + length
+	//add info to priority queue?
 	enQueue(P.head, length, destination, benefit)
  
 //Execution
