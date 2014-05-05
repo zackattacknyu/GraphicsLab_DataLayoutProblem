@@ -55,8 +55,6 @@ for each Access Requirement P
 		else if any of the nodes in P.head to (P.head+length) is T.tail
 			chooseOldCopy
 		else
-			difference1 = 0;
-			difference2 = 0;
 			//decide which copy to use in T
 			if P.head is T.head.next
 			{
