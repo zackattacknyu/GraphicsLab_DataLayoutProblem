@@ -1,0 +1,23 @@
+Notes for 5-5-2014:
+
+For Lola Project:
+- Add a 3D arrow for the normal vector
+	- Point the arrow toward the object
+- Put center of rotation around the origin so
+	that as the camera moves, we will move around the
+	object very easily
+
+For Shan's Project
+- Prove local optimality
+- Look at the corner case that Gopi illustrated
+- Prove correctness
+- They approved my idea for looking at overlapping intervals
+- Keep in mind that I will not be implementing it. 
+	- Run time and correctness is important
+- Make sure to know the stopping condition
+	- It will be based on redundancy factor
+	
+- Gopi will talk to Bruce
+
+Ask about Opthamology project:
+- good project
