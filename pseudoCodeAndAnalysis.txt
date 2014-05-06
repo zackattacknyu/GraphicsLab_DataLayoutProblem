@@ -7,19 +7,15 @@ Access requirement:
 Data unit entity: ID, position, list of ARs use it
  
 position findMincut (position1, position2)
-	/*For the following line, we will use a centered interval tree:
-		http://en.wikipedia.org/wiki/Interval_tree#Centered_interval_tree
-	The time required for each query will be O(log n + n) with n=# of AR
-	Total time will thus be O(log n* N_0 + n*N_0) with N being the number of data units.
-	
-	Another idea:
-	Make an integer array and for each position, put number of overlapping ARs
-	Finding the min will thus just take O(n) time
-	
-	Find out about the use of a graph here, as it does not seem necessary. 
-		Also, this is not a proper min cut as a cut of the graph would not 
-				necessary satisfy what we need.
-	It was implemented via brute force
+	/*
+	For this we will definitely use an integer array
+		as it has the best possible running time
+		for this sort of task. 
+	The integer array idea will definitely beat an interval tree
+		and since we already have to go through all the data
+		to construct an interval tree, so another pass through
+		to construct the integer array required for this won't cost
+		anything theoretically.
 	*/
 	return position with the minimum number of cuts
 	
