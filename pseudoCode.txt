@@ -1,0 +1,114 @@
+//Data Structures
+
+accessRequirement:
+	- head, tail
+	
+dataUnit:
+	- prev, next
+	- forEachAR:
+		-prev, next with same AR
+	- ID
+	- position
+
+range tree for access requirements:
+	- binary search tree of indices in first level
+	- in next level are the endpoint positions
+
+Main loop:
+	Initialize benefitHeap
+	for each accessRequirement P:
+		add info (benefit, destination, chooseOldCopy, chooseNewCopy) from getARbenefitInfo to benefitHeap node
+		do the same for the tail node routine
+		order benefitHeap using benefit
+	while there exists more space for redundancy:
+		pop best element from benefitHeap, getting node,length,destination
+		copy the elements node to node+length to destination
+		for every access requirement P from destination to destination+length:
+			update benefit info in heap
+		for every access requirement T in chooseNewCopy:
+			update head,tail info on access requirement
+			update head node to not contain the old access requirement
+		if chooseOldCopy is empty
+			delete node
+			for every accessRequirement P from node to node+length:
+				update benefit info in heap
+		reform Heap
+
+Initial Analysis:
+- n: number of ARs
+- m: number of units per AR
+- N: current total units
+Initial construction is being run on n ARs
+	log(n) operations for inserting into the heap
+	the loop getARbenefitInfo has worst case n^2 operations
+			
+
+
+//subroutine for finding best spot
+position findMinOverlappingARs(rangeTree for Access Requirement data, minPoint, maxPoint):
+	search range tree to get nodes between minPoint and maxPoint
+	min = Infinity
+	For each node:
+		update min if its min is better than the current one
+	return position corresponding to min
+
+number getLengthOfAdjacentUnitsHead(AccessRequirement T)
+	length = 0
+	start = T.head
+	end = T.head.next
+	while end.position – start.position = 1 //seems to measure number of adjacent units in the beginning of the AR
+		length = length + 1
+		start = start.next
+		end = end.next
+	return length,start,end
+
+//subroutine for getting benefit of using AR
+(benefit,destination,list chooseOldCopy, list chooseNewCopy) = getARbenefitInfo(accessRequirement P)
+	//group adjacent units
+	length,start,end = getLengthOfAdjacentUnitsHead(P)
+	//this ends up being length between next data unit and the head. that is the potential that can be saved.
+	potential = end.position – P.head.position - length
+	//we are finding the best position between the "end" node and the tail of the access requirement.
+	//putting the nodes before the end might reduce seek time, but we would reduce it better by putting it after the "end" node
+	destination = findMinOverlappingARs(rangeTree, end.position, P.tail.position)
+	benefit = potential
+	//calculate cost to other ARs
+	for each other AR uses the data units P.head to (P.head + length), T
+		if P.head is T.head //in this case, they will both benefit
+			T.length,T.start,T.end = getLengthOfAdjacentUnitsHead(T);
+			//this gets us the benefit that we can guarantee, hence the min part
+			benefit = benefit + min(potential, T.end.position – T.start.position)
+			add T to chooseNewCopy list
+		//in this case, we will definitely want the old copy
+		else if any of the nodes in P.head to (P.head+length) is T.tail
+			add T to chooseOldCopy list
+		else
+			//decide which copy to use in T
+			if P.head is T.head.next
+			{
+				//difference1 is future benefit from using the new copy for T
+				difference1 = P.end.position – P.start.position
+				if destination > T.tail.prev.position
+					//difference2 is future penalty from using the new copy for T
+					difference2 = destination + length - T.tail.prev.position
+					/* TODO: Figure out whether to consider P.length or T.length
+					*/
+				else
+					difference2 = 0
+				
+				if difference1 > difference2
+					add T to chooseNewCopy list
+				else
+					add T to chooseOldCopy list
+			}
+			else
+				add T chooseOldCopy list
+			
+	if chooseOldCopy list is empty
+		discard P.head
+		for each AR, A
+			if A.head.position < P.head.position AND A.tail.position > start.postion
+				//by discarding, for each AR covering it, this is the benefit of deleting that data unit
+				benefit = benefit + P.length
+
+	
