@@ -38,10 +38,71 @@ Initial Analysis:
 - n: number of ARs
 - m: number of units per AR
 - N: current total units
-Initial construction is being run on n ARs
-	log(n) operations for inserting into the heap
-	the loop getARbenefitInfo has worst case n^2 operations
-			
+- L: length of AR
+- Q: number of runs of redundancy loop
+Initial construction analysis:
+	Being run on n access requirements
+	For each AR, there are log(n) operations to insert data into heap
+	Let T_1(L) be running time to get the min number of affected access requirements
+	For each AR, there are O(n + T_1(L)) operations to get benefit info.
+	TOTAL: In worst case, initial construction takes O(n^2 + n T_1(L) )
+Redundancy loop:
+	Popping and copying takes O(1) operations
+	There are O(n) access requirements affected by the operation
+	Reforming the heap is O(n log n) operations
+	Updating the positions takes O(N) operations
+	TOTAL: In total, we have O(QN + Q*(n log n)) operations
+TOTAL Running time:
+	As stated above, there are O(n^2 + QN + Q(n logn) + n T_1(L)) operations
+
+Analysis of findMinCut:
+	Range tree approach with data units:
+		Each node will have two bits of info (position,numARs)
+		This info will be organized into a range tree
+		Construction will be O(N log N)
+		Query will be O(log N) if constructed so node contains min in other dimension
+		New TOTAL run time: O(n^2 + QN + Q*(n log n) + n*logN + NlogN)
+		New TOTAL run time(letting n = O(N)): O(N^2 + Q*(N log N) )
+	Segment tree approach with AR info:
+		Each AR is an interval
+		This info will be organized into a segment tree
+		Construction will be O(n log n)
+		Query will be O(log n + n) since there are up to n possible results
+		New TOTAL run time: O(QN + Q*(n log n) + n^2 log n)
+		New TOTAL run time(letting n = O(N)): O(N^2 log N + Q*(N log N) )
+	Linear search approach:
+		Each node will still have those two bits of info from range tree approach
+		A query will linearly search through the nodes
+		Construction will be O(N) and won't add anything to total
+		Query will be O(L)
+		New TOTAL run time: O(n^2 + QN + Q(n logn) + nL)
+		New TOTAL run time(letting n,L = O(N)): O(N^2 + Q*(N log N) )
+	Dynamic Programming approach:
+		Store a matrix where each entry (i,j) contains the min from unit i to unit j
+		It would require O(N^2) storage, which is unusable in our case
+		Construction would be O(N^2)
+			for every data unit i:
+				for j from i+1 to N:
+					matrix(i,j) gets min of matrix(i,j-1) and node j
+		Query time would be O(1)
+		New TOTAL run time: O(N^2 + QN + Q*(n log n) + n)
+		New TOTAL run time(letting n = O(N)): O(N^2 + Q*(N log N) )
+
+Analysis of list ordering:
+	Dynamic numbers approach:
+		Keep original position numbers same
+		When inserting, use median of two numbers where it is being inserted
+		Redundancy loop has O(1) for the update and just O(n log n) for reforming heap
+		Initial construction though need to linearly search instead of automatically knowing positions
+		Initial construction then will take O(n^2*L + n*T_1(L))
+		TOTAL run time: O(n^2*L + Q(n logn) + n T_1(L)) operations
+		TOTAL run time(letting n*L = O(N), n=O(N)): O(N^2 + Q(N log N) + N T_1(L))
+	Current approach:
+		TOTAL run time: O(n^2 + QN + Q(n logn) + n T_1(L)) operations
+		TOTAL run time(letting n*L = O(N), n=O(N)): O(N^2 + Q(N log N) + N T_1(L))
+	Conclusion:
+		Current approach is fine as it does not really affect total run time
+		
 
 
 //subroutine for finding best spot
