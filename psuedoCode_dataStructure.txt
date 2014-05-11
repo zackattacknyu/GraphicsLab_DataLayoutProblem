@@ -1,0 +1,15 @@
+For the data structure we will have a series of intervals
+	and for a given interval (i,j) we will want to find the index
+	with the least number of overlapping intervals. 
+
+Either Fusion Trees or Dominance Trees will probably be the best one. 
+- look at Michael Bannister's web page
+
+The block of data will have index as well as list of ARs
+The index can be a float, that way when we insert a data point, we do not have
+	to update the subsequent indicies. 
+
+Ideas:
+Linear search through block
+- likely not the best one in the end
+
