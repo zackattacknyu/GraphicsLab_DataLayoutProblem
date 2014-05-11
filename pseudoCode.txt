@@ -68,6 +68,7 @@ Analysis of findMinCut:
 		This info will be organized into a segment tree
 		Construction will be O(n log n)
 		Query will be O(log n + n) since there are up to n possible results
+			**TODO: Look into improving this running time if possible**
 		New TOTAL run time: O(QN + Q*(n log n) + n^2 log n)
 		New TOTAL run time(letting n = O(N)): O(N^2 log N + Q*(N log N) )
 	Linear search approach:
@@ -132,6 +133,9 @@ number getLengthOfAdjacentUnitsHead(AccessRequirement T)
 	//we are finding the best position between the "end" node and the tail of the access requirement.
 	//putting the nodes before the end might reduce seek time, but we would reduce it better by putting it after the "end" node
 	destination = findMinOverlappingARs(rangeTree, end.position, P.tail.position)
+		-this should probably check both sides of the head/tail
+		-this will take care of the corner case that Gopi pointed out
+		-**TODO: Work out the details of this idea**
 	benefit = potential
 	//calculate cost to other ARs
 	for each other AR uses the data units P.head to (P.head + length), T
