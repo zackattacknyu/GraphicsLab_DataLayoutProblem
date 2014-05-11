@@ -1,0 +1,28 @@
+5-11-2014:
+
+- Ask Gopi if he wants more degree of freedom with ARs
+- Assume that the user gives the number of access requirements
+- Number of ARs is application dependent
+- We will thus assume that number of ARs is constant
+
+List ordering:
+- We only care about relative position of data units in an access requirement
+- Figure out a way then that we only need to update that when inserting or deleting data elements
+- This will make it so we can avoid updating the position for every
+	subsequent access requirement when doing insertions and deletions
+	
+Corner case:
+- Yoon's algorithm would have spotted it
+- That paper tried all permutations in every neighborhood of 5 units
+- that particular case had 5 units
+- out of scope of problem
+- The optimal solution would be caught if we moved A,B for the blue data unit past C
+	- the optimal solution can be found in other ways
+
+Get examples:
+- Show an example where permutation still has large seek time,
+	but with redundancy the seek time is greatly improved
+- Make sure to mention that if we there is a way to move after redundancy,
+	then our algorithm would catch it since moving is just duplicating then deleting
+- If I come across any case where the algorithm would not produce the 
+	best solution, then record it because we might want to include it in the paper

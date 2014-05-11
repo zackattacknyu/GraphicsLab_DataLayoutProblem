@@ -2,11 +2,16 @@
 
 accessRequirement:
 	- head, tail
-	
+
+dataUnitGroup:
+	- set of data units that are adjacent
+	- length will also be a field
+
 dataUnit:
 	- prev, next
 	- forEachAR:
 		-prev, next with same AR
+		-dist to prev,next with same AR
 	- ID
 	- position
 
@@ -62,7 +67,6 @@ Analysis of findMinCut:
 		Construction will be O(N log N)
 		Query will be O(log N) if constructed so node contains min in other dimension
 		New TOTAL run time: O(n^2 + QN + Q*(n log n) + n*logN + NlogN)
-		New TOTAL run time(letting n = O(N)): O(N^2 + Q*(N log N) )
 	Segment tree approach with AR info:
 		Each AR is an interval
 		This info will be organized into a segment tree
@@ -70,14 +74,12 @@ Analysis of findMinCut:
 		Query will be O(log n + n) since there are up to n possible results
 			**TODO: Look into improving this running time if possible**
 		New TOTAL run time: O(QN + Q*(n log n) + n^2 log n)
-		New TOTAL run time(letting n = O(N)): O(N^2 log N + Q*(N log N) )
 	Linear search approach:
 		Each node will still have those two bits of info from range tree approach
 		A query will linearly search through the nodes
 		Construction will be O(N) and won't add anything to total
 		Query will be O(L)
 		New TOTAL run time: O(n^2 + QN + Q(n logn) + nL)
-		New TOTAL run time(letting n,L = O(N)): O(N^2 + Q*(N log N) )
 	Dynamic Programming approach:
 		Store a matrix where each entry (i,j) contains the min from unit i to unit j
 		It would require O(N^2) storage, which is unusable in our case
@@ -87,7 +89,6 @@ Analysis of findMinCut:
 					matrix(i,j) gets min of matrix(i,j-1) and node j
 		Query time would be O(1)
 		New TOTAL run time: O(N^2 + QN + Q*(n log n) + n)
-		New TOTAL run time(letting n = O(N)): O(N^2 + Q*(N log N) )
 
 Analysis of list ordering:
 	Dynamic numbers approach:
