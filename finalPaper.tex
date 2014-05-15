@@ -1,0 +1,59 @@
+\documentclass[11pt,psfig]{article}
+\usepackage{epsfig}
+\usepackage{times}
+\usepackage{amssymb}
+\usepackage{float}
+
+\newcount\refno\refno=1
+\def\ref{\the\refno \global\advance\refno by 1}
+\def\ux{\underline{x}}
+\def\uw{\underline{w}}
+\def\bw{\underline{w}}
+\def\ut{\underline{\theta}}
+\def\umu{\underline{\mu}} 
+\def\bmu{\underline{\mu}} 
+\def\be{p_e^*}
+\newcount\eqnumber\eqnumber=1
+\def\eq{\the \eqnumber \global\advance\eqnumber by 1}
+\def\eqs{\eq}
+\def\eqn{\eqno(\eq)}
+
+ \pagestyle{empty}
+\def\baselinestretch{1.1}
+\topmargin1in \headsep0.3in
+\topmargin0in \oddsidemargin0in \textwidth6.5in \textheight8.5in
+\begin{document}
+\setlength{\parskip}{1.2ex plus0.3ex minus 0.3ex}
+
+
+\thispagestyle{empty} \pagestyle{myheadings} \markright{G}
+
+
+
+\title{A Greedy Heuristic using Redundancy for the Data Layout Problem on Cache Oblivious Mesh Layouts}
+\author{Zachary DeStefano, University of California, Irvine}
+
+\maketitle
+
+\vfill\eject
+
+\section*{Abstract}
+
+In Computer Graphics, the Data Layout Problem involves figuring out how to lay out the data units for a cache oblivious mesh layout in such a way that minimizes seek time required. Finding a deterministic solution to the problem is NP-hard so various heuristics have been proposed. None of the heuristics involve redundancy. In this paper, we present a solution to the problem that involves redundancy. We will describe the algorithm in detail as well as its running time and storage requirements. We will then show that in many cases we will get a better seek time than the best one without redundancy while not using much extra space. We will also show that experimentally the seek time with our algorithm is better than with a heuristic for the data layout without redundancy.   
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[height=4in]{prob1plot.jpg}
+%\caption{Probability of Class Labels with decision boundaries marked}
+%\end{figure}
+
+
+\end{document}
+
+
+
+
+
+
+
+
