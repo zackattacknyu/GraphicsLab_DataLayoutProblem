@@ -116,56 +116,59 @@ New TOTAL run time: $O(N + n^2 + Q*(logN + n log n) + (n+N)*logN)$
 //Data Structures
 
 accessRequirement:
-	- head, tail
+     - head, tail
 
 dataUnitGroup:
-	- set of data units that are adjacent
-	- length will also be a field
+     - set of data units that are adjacent
+     - length will also be a field
 
 dataUnit:
-	- prev, next
-	- forEachAR:
-		-prev, next with same AR
-		-dist to prev,next with same AR
-	- ID
-	- no position parameter as we will just store relative positions
+     - prev, next
+     - forEachAR:
+     -prev, next with same AR
+     -dist to prev,next with same AR
+     - ID
+     - no position parameter as we will just store relative positions
 
 destinationDataUnit:
-	- subclass of dataUnit
-	- store dist to prev,next data unit with each AR overlapping
+     - subclass of dataUnit
+     - store dist to prev,next data unit with each AR overlapping
 
 range tree for access requirements:
-	- binary search tree of indices in first level
-	- in next level are the endpoint positions
+     - binary search tree of indices in first level
+     - in next level are the endpoint positions
 
 Main loop:
-	Initialize benefitHeap
-	for each accessRequirement P:
-		add info (benefit, destination, chooseOldCopy, chooseNewCopy) from getARbenefitInfo to benefitHeap node
-		do the same for the tail node routine
-		order benefitHeap using benefit
-	while there exists more space for redundancy:
-		pop best element from benefitHeap, getting node,length,destination
-			destination object will tell us affected access requirements whose information needs to be updated
-		copy the elements node to node+length to destination
-		for every access requirement P from destination to destination+length:
-			update benefit info in heap
-		for every access requirement T in chooseNewCopy:
-			update head,tail info on access requirement
-			update head node to not contain the old access requirement
-		if chooseOldCopy is empty
-			delete node
-			for every accessRequirement P from node to node+length:
-				update benefit info in heap
-		reform Heap
+     Initialize benefitHeap
+     for each accessRequirement P:
+          add info (benefit, destination, chooseOldCopy, chooseNewCopy) from   
+					      getARbenefitInfo to benefitHeap node
+     do the same for the tail node routine
+     order benefitHeap using benefit
+     while there exists more space for redundancy:
+           pop best element from benefitHeap, getting node,length,destination
+           destination object will tell us affected access requirements 
+                whose information needs to be updated
+           copy the elements node to node+length to destination
+           for every access requirement P from destination to destination+length:
+                update benefit info in heap
+	         for every access requirement T in chooseNewCopy:
+	              update head,tail info on access requirement
+           update head node to not contain the old access requirement
+           if chooseOldCopy is empty
+	              delete node
+                for every accessRequirement P from node to node+length:
+                      update benefit info in heap
+           reform Heap
 
 //subroutine for finding best spot
-position findMinOverlappingARs(rangeTree for Access Requirement data, minPoint, maxPoint):
-	search range tree to get nodes between minPoint and maxPoint
-	min = Infinity
-	For each node:
-		update min if its min is better than the current one
-	return position corresponding to min
+position findMinOverlappingARs(rangeTree for Access Requirement data, 
+     minPoint, maxPoint):
+     search range tree to get nodes between minPoint and maxPoint
+     min = Infinity
+     For each node:
+          update min if its min is better than the current one
+     return position corresponding to min
 
 number getLengthOfAdjacentUnitsHead(AccessRequirement T)
 	length = 0
@@ -276,7 +279,7 @@ With redundancy, this is the result\\
 Moving a data unit is really just duplicating it to a new position and deleting the old unit. In many cases, we end up doing that in our algorithm. 
 \section*{Experimental Results}
 
-**INSERT THE CHARTS FROM SHAN'S THESIS**
+**INSERT THE INFO FROM SHAN'S THESIS**
 
 \section*{Conclusions and Future Work}
 
