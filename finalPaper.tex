@@ -266,7 +266,17 @@ TOTAL Running time:
 
 \section*{Benefits over Existing Algorithms}
 
+Existing algorithms do not consider redundancy. Even if we find a polynomial solution to the data layout problem, we can actually achieve a seek time better than the optimal one without redundancy. Here is a case where that happens:\\
+**INSERT PICTURE OF DATA LAYOUT**\\
+Without redundancy, this is the optimal solution:\\
+**INSERT PICTURE OF LAYOUT WITHOUT REDUNDANCY**\\
+With redundancy, this is the result\\
+**INSERT PICTURE OF LAYOUT WITH REDUNDANCY**\\
+\\
+Moving a data unit is really just duplicating it to a new position and deleting the old unit. In many cases, we end up doing that in our algorithm. 
 \section*{Experimental Results}
+
+**INSERT THE CHARTS FROM SHAN'S THESIS**
 
 \section*{Conclusions and Future Work}
 
