@@ -171,101 +171,111 @@ position findMinOverlappingARs(rangeTree for Access Requirement data,
      return position corresponding to min
 
 number getLengthOfAdjacentUnitsHead(AccessRequirement T)
-	length = 0
-	start = T.head
-	end = T.head.next
-	while end.position – start.position = 1 //seems to measure number of adjacent units in the beginning of the AR
-		length = length + 1
-		start = start.next
-		end = end.next
-	return length,start,end
+     length = 0
+     start = T.head
+     end = T.head.next
+     while end.position – start.position = 1 
+          length = length + 1
+          start = start.next
+          end = end.next
+     return length,start,end
 
 //subroutine for getting benefit of using AR
-(benefit,destination,list chooseOldCopy, list chooseNewCopy) = getARbenefitInfo(accessRequirement P)
-	//group adjacent units
-	length,start,end = getLengthOfAdjacentUnitsHead(P)
-	//this ends up being length between next data unit and the head. that is the potential that can be saved.
-	potential = end.position – P.head.position - length
-	//we are finding the best position between the "end" node and the tail of the access requirement.
-	//putting the nodes before the end might reduce seek time, but we would reduce it better by putting it after the "end" node
-	destination = findMinOverlappingARs(rangeTree, end.position, P.tail.position)
-		-this should probably check both sides of the head/tail
-		-make sure that destination stores the overlapping Access Requirements, as
-				well as links and distinations to the next nodes for each AR
-		-**TODO: Work out the details of this idea**
-	benefit = potential
-	//calculate cost to other ARs
-	for each other AR uses the data units P.head to (P.head + length), T
-		if P.head is T.head //in this case, they will both benefit
-			T.length,T.start,T.end = getLengthOfAdjacentUnitsHead(T);
-			//this gets us the benefit that we can guarantee, hence the min part
-			benefit = benefit + min(potential, T.end.position – T.start.position)
-			add T to chooseNewCopy list
-		//in this case, we will definitely want the old copy
-		else if any of the nodes in P.head to (P.head+length) is T.tail
-			add T to chooseOldCopy list
-		else
-			//decide which copy to use in T
-			if P.head is T.head.next
-			{
-				//difference1 is future benefit from using the new copy for T
-				//use relative positions to get this number
-				difference1 = P.end.position – P.start.position
-				if destination > T.tail.prev.position
-					//difference2 is future penalty from using the new copy for T
-					//don't use straight arithmetic, but use the relative positions to get this number
-					difference2 = destination + length - T.tail.prev.position
-					/* TODO: Figure out whether to consider P.length or T.length
-					*/
-				else
-					difference2 = 0
+(benefit,destination,list chooseOldCopy, list chooseNewCopy) = 
+     getARbenefitInfo(accessRequirement P):
+     //group adjacent units
+     length,start,end = getLengthOfAdjacentUnitsHead(P)
+	
+     //this ends up being length between next data unit and the head. 
+     //   that is the potential that can be saved.
+     potential = end.position – P.head.position - length
+
+     //we are finding the best position between the "end" node and 
+     //     the tail of the access requirement.
+     //putting the nodes before the end might reduce seek time, 
+     //     but we would reduce it better by putting it after the "end" node
+     destination = findMinOverlappingARs(rangeTree, end.position, P.tail.position)
+           -this should probably check both sides of the head/tail
+           -make sure that destination stores the overlapping 
+                 Access Requirements, as
+                 well as links and distinations to the next nodes for each AR
+           -**TODO: Work out the details of this idea**
+      benefit = potential
+      //calculate cost to other ARs
+      for each other AR uses the data units P.head to (P.head + length), T
+           if P.head is T.head //in this case, they will both benefit
+                T.length,T.start,T.end = getLengthOfAdjacentUnitsHead(T);
+                //this gets us the benefit that we can guarantee, hence the min part
+                benefit = benefit + min(potential, T.end.position – T.start.position)
+			          add T to chooseNewCopy list
+		       //in this case, we will definitely want the old copy
+		       else if any of the nodes in P.head to (P.head+length) is T.tail
+                add T to chooseOldCopy list
+           else
+                //decide which copy to use in T
+                if P.head is T.head.next
+                {
+                      //difference1 is future benefit from using the new copy for T
+	                    //use relative positions to get this number
+                      difference1 = P.end.position – P.start.position
+                      if destination > T.tail.prev.position
+                            //difference2 is future penalty 
+                            //     from using the new copy for T
+                            //don't use straight arithmetic, 
+                            //      but use the relative positions to get this number
+                            difference2 = destination + length - T.tail.prev.position
+                            //TODO: Figure out whether to 
+                            //     consider P.length or T.length
+                      else
+                           difference2 = 0
 				
-				if difference1 > difference2
-					add T to chooseNewCopy list
-				else
-					add T to chooseOldCopy list
-			}
-			else
-				add T chooseOldCopy list
+                      if difference1 > difference2
+                           add T to chooseNewCopy list
+                      else
+                           add T to chooseOldCopy list
+			            }
+                  else
+                       add T chooseOldCopy list
 			
-	if chooseOldCopy list is empty
-		discard P.head
-		for each AR, A
-			if A.head.position < P.head.position AND A.tail.position > start.postion
-				//by discarding, for each AR covering it, this is the benefit of deleting that data unit
-				benefit = benefit + P.length
+     if chooseOldCopy list is empty
+          discard P.head
+          for each AR, A
+          if A.head.position < P.head.position AND A.tail.position > start.postion
+               //by discarding, for each AR covering it, 
+               //     this is the benefit of deleting that data unit
+               benefit = benefit + P.length
 
 \end{verbatim}
 
 \section*{Run-time and Storage Analysis}
 
-\begin{verbatim}
 
-Initial Analysis:
-- n: number of ARs
-- m: average number of overlapping ARs
-- N: current total units
-- L: length of AR
-- Q: number of runs of redundancy loop
-Initial construction analysis:
-	Being run on n access requirements
-	Takes O(N) operations to get all the initial AR data
-	For each AR, there are log(n) operations to insert data into heap
-	Let T_1 be running time to get the min number of affected access requirements
-	For each AR, there are O(n + T_1) operations to get benefit info.
-	There are T_2 operations to construct data structure for mincut operation
-	TOTAL: In worst case, initial construction takes O(N + n^2 + n T_1 + T_2)
-Redundancy loop:
-	Popping and copying takes O(1) operations
-	There are O(n) access requirements affected by the operation
-		Updating relative positions will take O(n) operations
-	Reforming the heap is O(n log n) operations
-	There are T_3 operations to update the data structure for mincut operation
-	TOTAL: In total, we have O(Q*(n log n) + Q*T_3) operations
-TOTAL Running time:
-	As stated above, there are O(N + n^2 + Q(n logn) + n*T_1 + T_2 + Q*T_3 ) operations
+\subsection*{Parameters}
+- n: number of ARs\\
+- m: average number of overlapping ARs\\
+- N: current total units\\
+- L: length of AR\\
+- Q: number of runs of redundancy loop\\
 
-\end{verbatim}
+\subsection*{Initial Construction}
+	Being run on n access requirements\\
+	Takes O(N) operations to get all the initial AR data\\
+	For each AR, there are log(n) operations to insert data into heap\\
+	Let $T_1$ be running time to get the min number of affected access requirements\\
+	For each AR, there are $O(n + T_1)$ operations to get benefit info\\
+	There are $T_2$ operations to construct data structure for mincut operation\\
+	TOTAL: In worst case, initial construction takes $O(N + n^2 + n T_1 + T_2)$\\
+
+\subsection*{Redundancy loop}
+	Popping and copying takes O(1) operations\\
+	There are O(n) access requirements affected by the operation\\
+		Updating relative positions will take O(n) operations\\
+	Reforming the heap is O(n log n) operations\\
+	There are $T_3$ operations to update the data structure for mincut operation\\
+	TOTAL: In total, we have $O(Q*(n log n) + Q*T_3)$ operations\\
+
+\subsection*{Total Running Time}
+	As stated above, there are $O(N + n^2 + Q(n logn) + n*T_1 + T_2 + Q*T_3 )$ operations. This proves that we have a quadratic time algorithm for finding a good layout.\\
 
 \section*{Benefits over Existing Algorithms}
 
