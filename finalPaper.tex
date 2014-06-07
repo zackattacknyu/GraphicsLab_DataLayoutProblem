@@ -78,31 +78,6 @@ For this paper, we tackle the problem of how do we optimize seek time given some
 
 \begin{verbatim}
 
-//Data Structures
-
-accessRequirement:
-     - head, tail
-
-dataUnitGroup:
-     - set of data units that are adjacent
-     - length will also be a field
-
-dataUnit:
-     - prev, next
-     - forEachAR:
-     -prev, next with same AR
-     -dist to prev,next with same AR
-     - ID
-     - no position parameter as we will just store relative positions
-
-destinationDataUnit:
-     - subclass of dataUnit
-     - store dist to prev,next data unit with each AR overlapping
-
-range tree for access requirements:
-     - binary search tree of indices in first level
-     - in next level are the endpoint positions
-
 Main loop:
      Initialize benefitHeap
      for each accessRequirement P:
@@ -215,6 +190,8 @@ number getLengthOfAdjacentUnitsHead(AccessRequirement T)
                benefit = benefit + P.length
 
 \end{verbatim}
+
+**TODO: In the algorithm description, for the part where we decide whether to keep the old or new copy, just say that we are choosing the copy that will keep the AR shorter. Similarly, use that description in the other parts of the algorithm. 
 
 \section*{Run-time and Storage Analysis}
 
