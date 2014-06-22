@@ -30,7 +30,7 @@
 
 
 
-\title{A Greedy Heuristic using Redundancy for (TODO: Figure out this part of the title: the Data Layout Problem) on Cache Oblivious Mesh Layouts}
+\title{A Greedy Heuristic using Redundancy for Data Layout on Cache Oblivious Mesh Layouts}
 \author{Zachary DeStefano, Shan Jiang, Gopi Meenakshisundaram\\ University of California, Irvine}
 
 \maketitle
@@ -39,7 +39,7 @@
 
 \section*{Abstract}
 
-In Computer Graphics, the (TODO: rephrase this: Data Layout Problem) involves figuring out how to lay out the data units for a cache oblivious mesh layout in such a way that minimizes seek time required. Finding a deterministic solution to the problem is NP-hard so various heuristics have been proposed. In this paper, we present a solution to the problem based on introducing redundancy to the layout. It will first use the idea to get an optimal layout without adding extra units. It will then try to reduce seek time while using the least amount of redundancy possible. This will prove to be a better heuristic than existing ones proposed both analytically and experimentally. The use of redundancy will provide better seek time in both cases than the optimal solution without redundancy.  
+In Computer Graphics, it is important to figure out how to lay out the data units for a cache oblivious mesh layout in such a way that minimizes seek time required. Finding a deterministic solution to the problem is NP-hard so various heuristics have been proposed. In this paper, we present a solution to the problem based on introducing redundancy to the layout. It will first use the idea to get an optimal layout without adding extra units. It will then try to reduce seek time while using the least amount of redundancy possible. This will prove to be a better heuristic than existing ones proposed both analytically and experimentally. The use of redundancy will provide better seek time in both cases than the optimal solution without redundancy.  
 
 \section*{Introduction}
 
@@ -51,15 +51,16 @@ In Yoon's paper **INSERT CITATION**, the Data Layout Problem is described as wel
 
 **TODO: Look at related work section of Shan's other papers and incorporate the information in there to talk about related work on this problem**\\
 \\
-**TODO: Talk about Yoon's paper. Want to mention the terminology used by this paper. Mention the heuristic they have. **\\
+In Yoon et al, they tackle the problem of approximating the best data layout. Since it is an NP-hard problem, they suggest a heuristic that computes locally optimal solutions. We liked the idea that it used to get a good data layout and felt that if we take over from there and use redundancy, then we can achieve an even better seek time.
+**TODO: Mention the terminology used by this paper. Mention the heuristic they have in more detail. **\\
 \\
 **TODO: Mention single-seek layout paper, optimization papers, and other papers that use redundancy. Talk about how they use it and why we want to improve upon it there**\\
 
 \section*{Greedy Redundancy-based Cache Oblivious Mesh Layout Algorithm}
 
-**TODO: Mention the fact that if we have data units closer together, then the walkthrough performance will be significantly better. The target of this algorithm is to put them closer together to achieve this**\\
+The main time when this problem arises is when walking through a large 3D environment. Since we cannot put all the geometric data into memory all at once, we want to make sure that as little time as possible is spent seeking out the new data units during walkthrough. Thus, we need to put the data units as close together as they can be. When they are close together, the walkthrough performance will be significantly better. \\
 \\
-The algorithm in Yoon et al. computes a locally optimal solution. Our algorithm is meant to take over after a locally optimal solution has been found or approximated. The basic idea of the algorithm is to take data units and copy them to a place that reduces seek time. If the old data units end up not being used then we delete them. Because there are cases where we would delete old units, the first loop in the algorithm is to take care of those cases first as it would reduce seek time without adding any redundancy. In order to get this algorithm to work, there are a few important issues to consider. We need to know which data units should be copied, where it should be copied to, which data units should be used by each access requirement, and which how many data units should be copied. 
+The algorithm in Yoon et al. computes a locally optimal solution. Our algorithm is meant to take over after a locally optimal solution has been found or approximated. The basic idea of the algorithm is to take data units and copy them to a place that reduces seek time. This way if a data unit should be in more than one place to optimize seek time then it will be. If the old data units end up not being used then we delete them. Because there are cases where we would delete old units, the first loop in the algorithm is to take care of those cases first as it would reduce seek time without adding any redundancy. In order to get this algorithm to work, there are a few important issues to consider. We need to know which data units should be copied, where it should be copied to, which data units should be used by each access requirement, and which how many data units should be copied. 
 
 \subsection*{Which data unit}
 
@@ -84,33 +85,6 @@ A given data unit will have a few access requirements attached to it. When you c
 If we want to get the best seek time possible with redundancy, we will copy each data unit as many times as it has access requirements. We will then group all the access requirements into their own blocks as they will now have their own copies of the data that they need. Unfortunately, given memory restrictions, this is not always possible. In practice, the redundancy factor was around 20 when we did this. \\
 \\
 For this paper, we tackle the problem of how do we optimize seek time given some limit on our redundancy. 
-
-\subsection*{Algorithm Summary}
-
-**TODO: Put this into an appendix at the end of the paper**
-
-\begin{verbatim}
-
-Initialize AR heap and newCopy list
-for each accessRequirement P's head node and tail node U:
-     Set benefit to distance from U to next or previous node
-     Let destination be spot with least number of overlapping access requirements
-     For each access requirement T that also uses U
-          See if T will be shorter by using new copy. Add T to oldCopyList if not.
-          Add that to benefit if so
-     Add benefit to heap
-     If oldCopyList is empty then add U to newCopy list
-while newCopy is not empty:
-     take out random element and move the node
-     Update AR heap and newCopy list
-while there exists more space for redundancy:
-     pop best element from heap
-     copy the element U to its destination
-     update affected access requirements
-     update heap
-
-\end{verbatim}
-
 
 \section*{Run-time and Storage Analysis}
 
@@ -148,12 +122,9 @@ With redundancy, this is the result\\
 
 \section*{Conclusion and Future Work}
 
-We have shown that we have a quadratic time algorithm with quadratic storage space for the Data Layout Problem. It achieves significant results analytically and experimentally. \\
+We have shown that we have a quadratic time algorithm with quadratic storage space for the Data Layout Problem. It achieves significant results analytically and experimentally. When walking through an extremely detailed 3D model, this algorithm can be used to ensure that the performance will not suffer. If we give the algorithm the proper access requirements with this 3D model, then the performance will be even better.\\
 \\
-**TODO: Mention layout of access requirements as potential future work. Since we have a good algorithm for what happens once we obtain the access requirements, a good extension then is an algorithm for how the access requirements should be laid out in the first place**\\
-\\
-**TODO: Investigate usage history of an application and group data units together in an access requirement if they end up having a high probability of being accessed together**\\
-\\
+This leads to a logical extension of this work. Since we have a good algorithm that takes over once we know the access requirements, we should figure out how to ensure there are good access requirements to begin with. One idea on how to ensure this is to check the usage history of an application and group data units together if they are accessed together with high probability. This could even be done dynamically in the sense that after a certain amount of usage and repeating on a regular basis, you recompute the optimal access requirements and then use that to recompute the optimal layout. 
 
 \section*{Acknowledgments}
 
@@ -163,7 +134,34 @@ We have shown that we have a quadratic time algorithm with quadratic storage spa
 \\
 **SHAN'S PREVIOUS PAPERS**\\
 \\
-**PUT ANY PREVIOUS LITERATURE ON THE TOPIC IF IT EXISTS**    
+**PUT ANY PREVIOUS LITERATURE ON THE TOPIC IF IT EXISTS**   
+
+\section*{Appendix}
+
+\subsection*{Algorithm Summary}
+
+\begin{verbatim}
+
+Initialize AR heap and newCopy list
+for each accessRequirement P's head node and tail node U:
+     Set benefit to distance from U to next or previous node
+     Let destination be spot with least number of overlapping access requirements
+     For each access requirement T that also uses U
+          See if T will be shorter by using new copy. Add T to oldCopyList if not.
+          Add that to benefit if so
+     Add benefit to heap
+     If oldCopyList is empty then add U to newCopy list
+while newCopy is not empty:
+     take out random element and move the node
+     Update AR heap and newCopy list
+while there exists more space for redundancy:
+     pop best element from heap
+     copy the element U to its destination
+     update affected access requirements
+     update heap
+
+\end{verbatim}
+ 
 
 %\begin{figure}[H]
 %\centering
