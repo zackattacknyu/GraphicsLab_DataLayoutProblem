@@ -55,14 +55,47 @@ In Yoon's paper **INSERT CITATION**, the Data Layout Problem is described as wel
 \begin{verbatim}
 http://graphics.ics.uci.edu/Interactive3DRenderingProject/index.htm
 \end{verbatim}
-This paper specificially seems good
+These are the ones to use
 \begin{verbatim}
 http://graphics.ics.uci.edu/upload/I3D09.pdf
+Page based data structure paper
+Gives us the justification to use data units the way we do that are uniform
+Each data unit is a page
+That is why we are using this algorithm
+
+http://www.ics.uci.edu/~bsajadi/files/I3D/I3D11.pdf?userRef=PNAW41ZR9R0BCVAVIMQWM0FVAAB6ZBPK&basename=paper189.pdf
+Data Management for SSDs paper
+Shows the motivation for the experiment
+The point of the paper is that in SSD we don't rely on global optimized layout
+From the experiment, we find that if we reduce seek time on HDD, then the performance will be better
+Only way to reduce seek time is thus to introduce redundancy
+This was the motivation for further papers
+From this paper, we know that without reducing seek time, HDD performance is not better than SSD
+However, HDD drives are much cheaper, so we can have more space, therefore we can use redundancy for HDD
 \end{verbatim}
 In Yoon et al, they tackle the problem of approximating the best data layout. Since it is an NP-hard problem, they suggest a heuristic that computes locally optimal solutions. We liked the idea that it used to get a good data layout and felt that if we take over from there and use redundancy, then we can achieve an even better seek time.
 **TODO: Mention the terminology used by this paper. Mention the heuristic they have in more detail. **\\
 \\
-**TODO: Mention single-seek layout paper, optimization papers, and other papers that use redundancy. Talk about how they use it and why we want to improve upon it there**\\
+\begin{verbatim}
+Look at this paper which provides more motivation and uses redundancy:
+http://graphics.ics.uci.edu/drupal/pub/singleseek.pdf
+Idea of this paper is to do a brute force repeat and get a single seek layout, no matter how much redundancy
+We make sure the seek time is 1
+Good first step for exploring redundacy-based approach
+Motivation for why in this paper we have a threshold on redundancy 
+The extreme other end for where we have a lot of redundancy 
+
+**Shan to send me the optimization paper that uses redundancy**
+**Ask Duy about optimization paper**
+**It was the one that Duy presented in Syndey**
+
+It is a serial story:
+1. Data Management paper shows that we can put redundancy into an HDD to reduce seek time and improve performance
+2. Single Seek Layout Paper shows the result with a lot of redundancy
+3. Optimization paper shows a balance between 1 and 2
+4. We do not have a layout though for 3, this paper is meant to show the layout
+\end{verbatim}
+**TODO: Mention papers in the related work of the Single Seek Data Layout Paper**\\
 
 \section*{Greedy Redundancy-based Cache Oblivious Mesh Layout Algorithm}
 
