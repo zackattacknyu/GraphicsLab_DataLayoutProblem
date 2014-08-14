@@ -66,7 +66,7 @@ In Yoon et al, they tackle the problem of approximating the best data layout on 
 **TODO: Mention the terminology used by this paper. Mention the heuristic they have in more detail. **\\
 
 \subsection*{Single Seek Data Layout}
-In Jiang's paper about Single Seek Data Layout **INSERT CITATION** it was found that when we have a lot of redundancy then we can reduce the seek time to one. The redundancy factor ended up being quite large for that case so the algorithm was not practical. This gave us the motivation to put a limit on redundancy and see how much we can reduce seek time with that limit in mind, which is the focus of this paper. 
+Jiang et al explored solutions to the data layout problem where the disk seeks are minimized. He was able to achieve a seek time of one between frames. This was accomplished by using redundancy in the data layout. This means that multiple copies of the same geometric primitive were put into the data layout so that the seek time between primitives who would be accessed together is reduced. The redundancy factor ended up being quite large for that case so the algorithm was not practical. The performance was better though so we decided to explore how much we could improve performance using a limited amount of redundancy. 
 \begin{verbatim}
 http://graphics.ics.uci.edu/drupal/pub/singleseek.pdf
 \end{verbatim}
@@ -77,8 +77,6 @@ In Jiang's paper about optimizing redundancy **INSERT CITATION**, he uses a line
 In summary, the page-based data structure gave us motivation to use uniform data units arranged linearly on a disk in order to store all the information for a walkthrough. The data management paper showed us that when we use redundancy to reduce seek time, it will improve the performance for a walkthrough stored on an HDD. The Single Seek Layout paper showed the result of using a great amount of redundancy. The optimization paper limited the amount of redundancy to make the algorithm more practical but it did not compute a great layout. This paper is meant to show that layout. \\
 \\
 **TODO: Mention papers in the related work of the Single Seek Data Layout Paper**\\
-\\
-**TODO: Read the other related work sections and use the style that they used when describing the works**\\
 \\
 **TODO: Above will be a subsection of related work**\\
 \\
@@ -94,10 +92,6 @@ In summary, the page-based data structure gave us motivation to use uniform data
 5. Image-based rendering papers\\
 6. Motivation papers\\
 Mention that 4 and 5 are orthogonal to our method, can be used at the same time\\
-\\
-For next time:\\
-- Rephrase related work section to match the wording in the existing papers\\
-- Find papers for the other topics to talk about\\
 
 \section*{Greedy Redundancy-based Cache Oblivious Mesh Layout Algorithm}
 
