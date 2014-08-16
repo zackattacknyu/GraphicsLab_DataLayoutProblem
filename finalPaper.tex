@@ -45,8 +45,10 @@ In Computer Graphics, it is important to figure out how to lay out the data unit
 
 The Data Layout Problem can be formulated as follows. The input is a linear sequence of data units. Each of the data units is assigned at least one color and many of them have multiple colors assigned. The length of a color is the distance from its first data unit to its last data unit. The data units can be rearranged as desired. The output we would like is the sequence of data units that will minimize the total length of all the colors. \\
 \\
-In Yoon's paper \cite{cacheobliviouslayout}, the Data Layout Problem is described as well as the metric that is motivating the above definition. We noticed that access patterns described in the paper can be very general and there could easily be data units that are far apart in the sequence but need to be accessed together. This led us to realize that if we copy data units and move them closer to other ones that share the same access pattern then we could save a lot of seek time without adding much storage space. The rest of this paper is about the algorithm developed to optimize seek time while minimizing the redundancy required to accomplish that. \\
-\\
+In Yoon's paper \cite{cacheobliviouslayout}, the Data Layout Problem is described as well as the metric that is motivating the above definition. We noticed that access patterns described in the paper can be very general and there could easily be data units that are far apart in the sequence but need to be accessed together. This led us to realize that if we copy data units and move them closer to other ones that share the same access pattern then we could save a lot of seek time without adding much storage space. The rest of this paper is about the algorithm developed to optimize seek time while minimizing the redundancy required to accomplish that. 
+
+\newpage
+
 \section*{Related Work}
 
 \subsection*{Data Layout}
@@ -70,6 +72,8 @@ Jiang et al \cite{singleseeklayout} explored solutions to the data layout proble
 Jiang et al \cite{optimizingredundancy} later explored the trade-off between performance and redundancy. Specifically, they looked at the question of given a seek time requirement, what is the minimum amount of redundancy that can be achieved. In this way you can figure out the least amount of space required to achieve a certain seek time in your application. It ended up being an integer linear programming algorithm. After implementing their algorithm and analyzing the results, the consistency and interactivity of the system was greatly improved. The amount of redundancy using this improved algorithm was significantly less than with the single-seek layout paper, making this algorithm much more practical. The algorithm however did not compute the actual layout of the data that is optimal. \\
 \\
 In summary, the page-based data structure gave us motivation to use uniform data units arranged linearly on a disk in order to store all the information for a walkthrough. The data management paper showed us that when we use redundancy to reduce seek time, it will improve the performance for a walkthrough stored on an HDD. The Single Seek Layout paper showed the result of using a great amount of redundancy. The optimization paper found the least redundancy factor required for a certain seek time but it did not compute the actual layout of the data. This paper computes the layout of the data and seeks to find the optimal seek time given an upper limit on redundancy. 
+
+\newpage
 
 \section*{Greedy Redundancy-based Cache Oblivious Mesh Layout Algorithm}
 
@@ -143,8 +147,12 @@ This leads to a logical extension of this work. Since we have a good algorithm t
 
 \section*{Acknowledgments}
 
+\newpage
+
 \bibliographystyle{plain}
 \bibliography{finalPaperRefs}
+
+\newpage
 
 \section*{Appendix}
 
