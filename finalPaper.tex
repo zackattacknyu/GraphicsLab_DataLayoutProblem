@@ -61,15 +61,12 @@ Yoon et al \cite{cacheobliviouslayout} explored the problem of data layout on a 
 
 \subsection*{Out-Of-Core Rendering}
 
-\begin{verbatim}
-http://en.wikipedia.org/wiki/Out-of-core_algorithm
-http://www.sci.utah.edu/~csilva/papers/iwalk.pdf
-http://gamma.cs.unc.edu/OOC/varadhan.pdf
-\end{verbatim}
-
-\subsection*{Compression-based Rendering}
+Out-Of-Core rendering has been explored as a method for rendering large geometric data sets when the PC has limited main memory. Coorea et al \cite{iwalk} came up with the iWalk system for rendering large models using this method. They put all the geometric data into an octree and then during runtime only the necessary nodes from the octree and put into the main memory. At the time, they were able to process a very large model on an inexpensive PC and have it render at 9 frames per second. To their knowledge, they were the first to render such a large model on a PC with such limited memory. \\
+\\
+Varadhan et al \cite{outofcore} also explored out-of-core rendering but used a different graph approach to obtain what should be put into main memory at a given time. They first construct a scene graph using Level of Detail and Visibility between frames. During run-time they use a parallel processing approach to render the active part of the scene as well as fetching objects from the disk. They were able to use this approach on a variety of environments that were up to a few gigabytes in size and they rendered successfully. The algorithm scaled successfully and the main memory requirements were output sensitive. 
 
 \subsection*{Image-based Rendering}
+
 
 \begin{verbatim}
 http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=899214&tag=1
