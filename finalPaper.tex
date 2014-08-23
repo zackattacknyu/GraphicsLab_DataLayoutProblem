@@ -67,12 +67,9 @@ Varadhan et al \cite{outofcore} also explored out-of-core rendering but used a d
 
 \subsection*{Image-based Rendering}
 
-
-\begin{verbatim}
-http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=899214&tag=1
-http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=899214
-http://research.microsoft.com/en-us/um/people/chazhang/publications/tr03_03_ChaZhang.pdf
-\end{verbatim}
+Image-based rendering (IBR) techniques are commonly used to improve rendering. Zhang et al \cite{imagebasedrendering} presented a survey of image-based rendering techniques. This technique involves sampling the space using a plenoptic function in the first stage and then rendering the continuous plenoptic function in the next stage. It is similar to the technique in signal processing of sampling a set of numbers and then using those samples to get the continuous function and reconstructing the continuous function. The paper goes into detail on various applications of this technique. He also talked about various methods for improving the processing required to adopt this technique. This approach does help render scenes and can be used at the same time as our approach. \\
+\\
+Li et al \cite{compressionimagebased} explored various compression methods for image-based rendering. Specifically, they explored the benefits of 3 compression algorithms. In the end all three were able to achieve Just-in-time rendering of large models and they varied in the complexity of the decoding and the compression ratio they were able to achieve. These methods are good for improving the rendering time and can also be used alongside our approach. 
 
 \subsection*{Motivation}
 
