@@ -31,7 +31,7 @@
 
 
 \title{A Greedy Heuristic using Redundancy for Data Layout on Cache Oblivious Mesh Layouts}
-\author{Zachary DeStefano, Shan Jiang, Gopi Meenakshisundaram\\ University of California, Irvine}
+\author{Zachary DeStefano, Shan Jiang, Gopi Meenakshisundaram, Sung-Eui Yoon\\ University of California, Irvine}
 
 \maketitle
 
@@ -39,7 +39,7 @@
 
 \section*{Abstract}
 
-In Computer Graphics, it is important to figure out how to lay out the data units for a cache oblivious mesh layout in such a way that minimizes seek time required. Finding a deterministic solution to the problem is NP-hard so various heuristics have been proposed. In this paper, we present a solution to the problem based on introducing redundancy to the layout. It will first use the idea to get an optimal layout without adding extra units. It will then try to reduce seek time while using the least amount of redundancy possible. This will prove to be a better heuristic than existing ones proposed both analytically and experimentally. The use of redundancy will provide better seek time in both cases than the optimal solution without redundancy.  
+In Computer Graphics, in order to compute an efficient cache oblivious mesh layout we must figure out the optimal method for laying out the data units. Finding a deterministic solution to the problem is NP-hard so various heuristics have been proposed. In this paper, we present a solution to the problem based on introducing redundancy to the layout. It will reduce seek time while using the least amount of redundancy possible. This will prove to be a better heuristic than existing ones proposed both analytically and experimentally. 
 
 \section*{Introduction}
 
@@ -69,7 +69,7 @@ In real time rendering, time spent on one frame can be roughly divided into data
 
 \section*{Greedy Redundancy-based Cache Oblivious Mesh Layout Algorithm}
 
-The main time when this problem arises is when walking through a large 3D environment. Since we cannot put all the geometric data into memory all at once, we want to make sure that as little time as possible is spent seeking out the new data units during walkthrough. Thus, we need to put the data units as close together as they can be. When they are close together, the walkthrough performance will be significantly better. \\
+The main time when this problem arises is when walking through a large 3D environment. Since we cannot put all the geometric data into memory all at once, we want to make sure that as little time as possible is spent seeking out the new data units during walkthrough. Thus, we need to put the data units as close together as they can be. \\
 \\
 The algorithm in Yoon et al. computes a locally optimal solution. Our algorithm is meant to take over after a locally optimal solution has been found or approximated. The basic idea of the algorithm is to take data units and copy them to a place that reduces seek time. This way if a data unit should be in more than one place to optimize seek time then it will be. If the old data units end up not being used then we delete them. Because there are cases where we would delete old units, the first loop in the algorithm is to take care of those cases first as it would reduce seek time without adding any redundancy. In order to get this algorithm to work, there are a few important issues to consider. We need to know which data units should be copied, where it should be copied to, which data units should be used by each access requirement, and which how many data units should be copied. 
 
@@ -93,9 +93,7 @@ A given data unit will have a few access requirements attached to it. When you c
 
 \subsection*{Number of data units to be copied} 
 
-If we want to get the best seek time possible with redundancy, we will copy each data unit as many times as it has access requirements. We will then group all the access requirements into their own blocks as they will now have their own copies of the data that they need. Unfortunately, given memory restrictions, this is not always possible. In practice, the redundancy factor was around 20 when we did this. \\
-\\
-For this paper, we tackle the problem of how do we optimize seek time given some limit on our redundancy. 
+If we want to get the best seek time possible with redundancy, we will copy each data unit as many times as it has access requirements. We will then group all the access requirements into their own blocks as they will now have their own copies of the data that they need. Unfortunately, given memory restrictions, this is not always possible. In practice, the redundancy factor was around 20 when we did this. Thus our algorithm copies the data unit that will provide the most benefit at each step and stops when our storage limit is reached. 
 
 \section*{Run-time and Storage Analysis}
 
