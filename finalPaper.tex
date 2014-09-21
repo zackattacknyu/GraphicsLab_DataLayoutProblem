@@ -115,10 +115,19 @@ Existing algorithms do not consider redundancy. Even if we find a polynomial sol
 \includegraphics[height=2in]{examplePic_startingProblem.png}
 \caption{Data Units with varying access requirements}
 \end{figure}
-Without redundancy, this is the optimal solution:\\
-**INSERT PICTURE OF LAYOUT WITHOUT REDUNDANCY**\\
-With redundancy, this is the result\\
-**INSERT PICTURE OF LAYOUT WITH REDUNDANCY**\\
+Currently the total seek time is 11 units. Without redundancy, this is the optimal solution:\\
+\begin{figure}[H]
+\centering
+\includegraphics[height=2in]{examplePic_woRedundancy.png}
+\caption{Optimal layout without redundancy}
+\end{figure}
+The seek time has been reduced to 9 units without using redundancy. With redundancy, this is the result:\\
+\begin{figure}[H]
+\centering
+\includegraphics[height=2in]{examplePic_withRedundancy.png}
+\caption{Optimal layout with redundancy}
+\end{figure}
+Here is an optimal layout with redundancy. The total seek time is now the minimum required which is 7 units. While a reduction from 9 to 7 units may not seem dramatic, when this result is scaled up to the hundreds of millions, this makes a big difference in seek time, as we saw in practice. 
 
 \section*{Experimental Results}
 
