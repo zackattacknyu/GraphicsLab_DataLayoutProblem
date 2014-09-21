@@ -97,19 +97,13 @@ If we want to get the best seek time possible with redundancy, we will copy each
 
 \section*{Run-time and Storage Analysis}
 
-We now need to analyze the running time and storage requirements of our algorithm. For simplification, we will assume that the number of access requirements is a constant ratio of the number of data units. This is not a bad simplification as in many applications, the number of access requirements can easily be close to the number of data units. Thus, we will denote $N$ as the number of data units and access requirements. We will use $k$ as the average length of a single access requirement. The variable $Q$ will represent the number of runs of the redundancy loop, and $R$ will be the number of runs of the new copy loop. For simplicity, we will also assume that any given data unit has up to a constant number of overlapping access requirements. \\
+We now need to analyze the running time and storage requirements of our algorithm. We will denote $N$ as the number of data units and $A$ as the number of access requirements. We will use $k$ as the average length of a single access requirement. The variable $Q$ will represent the number of runs of the redundancy and new copy loop. The average number of overlapping access requirements is proportional to the number of data units multiplied by the redundancy factor $r$, which is the amount of redundancy if we have a single-seek layout. Therefore, the number of overlapping access requirements is O(rN). \\
 \\
-**TWO THINGS TO INCORPORATE:\\
+The Initial Construction loop is run on all A access requirements. It involves finding all the benefit information and putting it into a heap so that it is easy to figure out the best access requirement to modify first. There are log(A) operations to insert the data into the heap and a constant number of operations plus O(k) operations for the search of the AR to get the benefit information. Thus it takes a total of $O(A \cdot k \cdot logA)$ operations to do the initial construction. \\
 \\
-(1) The number of overall access requirements should be kept as its own parameter. \\
+With the new copy and redundancy loops, there are O(rN) overlapping access requirements and a constant number of operations for each access requirement. Then, the algorithm reforms the heap and updates the nodes in the AR. With that, there are $O(log(A))$ operations done a constant number of times plus O(k) operations for updating the data nodes in the access requirement. Thus the redundancy and new copy loop takes $O(Q(k \cdot logA + rN))$ operations. \\
 \\
-(2) The number of overlapping access requirements is proportional to the (RedundancyFactor-1)*(Number of Data Units) where RedundancyFactor is the factor required for a single seek layout.**\\
-\\
-The Initial Construction loop is run on all N access requirements. There are log(N) operations to insert the data into the heap and a constant number of operations plus O(k) operations for the search of the AR to get the benefit information. Thus it takes a total of O(N*k*log(N)) operations to do the initial construction. \\
-\\
-With the redundancy and new copy loop, there are $Q+R$ runs of it. Since we are assuming a constant number of overlapping access requirements, there are a constant number of operations, except for reforming the heap and updating the nodes in the AR. With that, there are $O(log(N))$ operations done a constant number of times plus O(k) operations for updating the data nodes in the access requirement. Thus the redundancy and new copy loop takes $O((Q+R)k*log(N))$ operations. \\
-\\
-This means that in total, our algorithm takes $O( (N + Q + R) \cdot k \cdot log(N))$ operations. 
+This means that in total, our algorithm takes $O( k \cdot logA (Q+A) + rN)$ operations. 
 
 \subsection*{Theoretical Improvements over existing algorithms}
 
