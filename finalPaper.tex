@@ -3,6 +3,9 @@
 \usepackage{times}
 \usepackage{amssymb}
 \usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{authblk}
 
 \newcount\refno\refno=1
 \def\ref{\the\refno \global\advance\refno by 1}
@@ -30,8 +33,16 @@
 
 
 
-\title{A Greedy Heuristic using Redundancy for Data Layout on Cache Oblivious Mesh Layouts}
-\author{Zachary DeStefano, Shan Jiang, Gopi Meenakshisundaram, Sung-Eui Yoon\\ University of California, Irvine}
+\title{A Greedy Heuristic using Redundancy for the Data Layout Problem}
+%\author{Zachary DeStefano, Shan Jiang, Gopi Meenakshisundaram, Sung-Eui Yoon\\ University of California, Irvine}
+\author[1]{Zachary DeStefano}
+\author[1]{Shan Jiang}
+\author[1]{Gopi Meenakshisundaram}
+\author[2]{Sung-Eui Yoon}
+\affil[1]{University of California, Irvine}
+\affil[2]{KAIST}
+
+\date{October 21, 2014}
 
 \maketitle
 
