@@ -1,0 +1,6 @@
+1. At first C will be moved to between A and B due to the red AR
+2. Then A will be moved to after B due to the blue AR
+We will then have the following:
+C B A D E
+
+That is an optimal solution

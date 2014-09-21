@@ -107,13 +107,14 @@ This means that in total, our algorithm takes $O( k \cdot logA (Q+A) + rN)$ oper
 
 \subsection*{Theoretical Improvements over existing algorithms}
 
-The first part of the algorithm will produce a better solution than proposed by Yoon without adding extra units, thus it is an improved solution to the Data Layout Problem. Here is an example layout produced by Yoon's algorithm:\\
-**INSERT PICTURE OF LAYOUT PRODUCED BY YOON**\\
-With our algorithm we will produce the following layout: \\
-**INSERT PICTURE OF OUR NEW LAYOUT**\\
+The first part of the algorithm will produce a better solution than proposed by Yoon without adding extra units. This is because our algorithm will consider cases where data units are close to each other but in different blocks of units that would be arranged in Yoon's algorithm. \\
 \\
 Existing algorithms do not consider redundancy. Even if we find a polynomial solution to the data layout problem, we can actually achieve a seek time better than the optimal one without redundancy. Here is a case where that happens:\\
-**INSERT PICTURE OF DATA LAYOUT**\\
+\begin{figure}[H]
+\centering
+\includegraphics[height=2in]{examplePic_startingProblem.png}
+\caption{Data Units with varying access requirements}
+\end{figure}
 Without redundancy, this is the optimal solution:\\
 **INSERT PICTURE OF LAYOUT WITHOUT REDUNDANCY**\\
 With redundancy, this is the result\\
