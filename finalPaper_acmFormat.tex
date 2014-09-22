@@ -166,4 +166,31 @@ To Robert, for all the bagels.
 
 \bibliographystyle{acmsiggraph}
 \bibliography{finalPaperRefs}
+
+\section{Appendix}
+
+\subsection{Algorithm Summary}
+
+\begin{verbatim}
+
+Initialize AR heap and newCopy list
+for each accessRequirement P's head node and tail node U:
+     Set benefit to distance from U to next or previous node
+     Let destination be spot with least number of overlapping access requirements
+     For each access requirement T that also uses U
+          See if T will be shorter by using new copy. Add T to oldCopyList if not.
+          Add that to benefit if so
+     Add benefit to heap
+     If oldCopyList is empty then add U to newCopy list
+while newCopy is not empty:
+     take out random element and move the node
+     Update AR heap and newCopy list
+while there exists more space for redundancy:
+     pop best element from heap
+     copy the element U to its destination
+     update affected access requirements
+     update heap
+
+\end{verbatim}
+
 \end{document}
