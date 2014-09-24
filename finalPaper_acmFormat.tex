@@ -196,9 +196,30 @@ We could use a range tree. The initial binary search tree would be sorted by ind
 
 \section{Theoretical Improvements over existing algorithms}
 
-The first part of the algorithm will produce a better solution than proposed by Yoon without adding extra units. This is because our algorithm will consider cases where data units are close to each other but in different blocks of units that would be arranged in Yoon's algorithm. Consider a case where we have two access requirements of 5 data units each. If they are spread across the sequence, then Yoon's algorithm would not consider grouping them together, since they would be in different blocks of 5. **INSERT PICTURE OF THIS AND MORE DETAIL** \\
-\\
-Existing algorithms do not consider redundancy. Even if we find a polynomial solution to the data layout problem, we can actually achieve a seek time better than the optimal one without redundancy. Figure \ref{fig:startingProb} shows a case where that happens. The total seek time is 11 units. Without redundancy, the optimal solution is shown in Figure \ref{fig:woRedundacy}. The seek time has been reduced to 9 units. With redundancy, the total seek time is now the minimum required which is 7 units, as shown in Figure \ref{fig:withRedundancy}. While a reduction from 9 to 7 units may not seem dramatic, when this result is scaled up to the hundreds of millions, this makes a big difference in seek time, which we saw in practice.\\
+The first part of the algorithm will produce a better solution than proposed by Yoon without adding extra units. This is because our algorithm will consider cases where data units are close to each other but in different blocks of units that would be arranged in Yoon's algorithm. Consider a case where we have two access requirements of 5 data units each. Figure \ref{YoonImprovement1} shows an example of that. Figure \ref{YoonImprovement2} shows the result of using Yoon's algorithm. Because its hierarchical it would arrange the units in each block and then arrange the blocks. Thus even though the black access requirement blocks can be grouped together, Yoon's heuristic would not detect that. When our algorithm is run after Yoon's algorithm, it would find that it can shorten the black access requirements without adding redundancy so it would do that first. You would end up with the ideal solution as shown in figure \ref{YoonImprovement3}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3in]{ImprovementOverYoon_before.jpg}
+\caption{Example of two access requirements of 5 data units each. The red line represents the boundary between blocks that Yoon's algorithm would use}
+\label{YoonImprovement1}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3in]{ImprovementOverYoon_afterYoons.jpg}
+\caption{The above figure after running Yoon's algorithm}
+\label{YoonImprovement2}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3in]{ImprovementOverYoon_afterOurs.jpg}
+\caption{The above figure after running our algorithm}
+\label{YoonImprovement3}
+\end{figure}
+
+Existing algorithms for the data layout problem do not consider redundancy. Even if we find a polynomial solution to the data layout problem, we can actually achieve a seek time better than the optimal one without redundancy. Figure \ref{fig:startingProb} shows a case where that happens. The total seek time is 11 units. Without redundancy, the optimal solution is shown in Figure \ref{woRedundacy}. The seek time has been reduced to 9 units. With redundancy, the total seek time is now the minimum required which is 7 units, as shown in Figure \ref{withRedundancy}. While a reduction from 9 to 7 units may not seem dramatic, when this result is scaled up to the hundreds of millions, this makes a big difference in seek time, which we saw in practice as described in the next section.\\
 
 \begin{figure}[ht]
 \centering
@@ -210,14 +231,14 @@ Existing algorithms do not consider redundancy. Even if we find a polynomial sol
 \begin{figure}[ht]
 \centering
 \includegraphics[width=3in]{examplePic_woRedundancy.png}
-\label{fig:woRedundacy}
+\label{woRedundacy}
 \caption{Optimal layout without redundancy}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=3in]{examplePic_withRedundancy.png}
-\label{fig:withRedundancy}
+\label{withRedundancy}
 \caption{Optimal layout with redundancy}
 \end{figure} 
 
