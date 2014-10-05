@@ -33,7 +33,7 @@
 \affil[1]{University of California, Irvine}
 \affil[2]{KAIST}
 
-\keywords{Data Layout Problem, Out-Of-Core Rendering, Cache Oblivious Mesh Layout}
+\keywords{Data Layout Problem, Out-Of-Core Rendering, Cache Oblivious Mesh Layout, Redundant Data Layout, Walkthrough Application}
 
 \begin{document}
 
@@ -46,7 +46,8 @@
 
 \begin{abstract}
 
-In this paper, we present a greedy heuristic that uses redundancy to try and optimize seek time in a cache oblivious mesh layout. This is an important problem that appears when you are attempting to render massive amounts of geometric data that must be accessed together but cannot fit into main memory. We take previous work on optimizing the data layout and attempt to further reduce the seek time by inserting redundant data into key places. We have an algorithm that inserts redundant data units individually and ensures that each insertion is the one that reduces seek time the most at that step. In this way, we can minimize seek time using a limit on the amount of redundancy that we are allowed. This will prove to be an improvement over existing algorithms both analytically and experimentally. 
+Performance of interactive graphics walkthrough systems depend on the time taken to fetch the required data to render from the secondary storage to the main memory. It has been earlier established that a large fraction of this fetch time is spent on seeking the data on the hard disk. In order to reduce this seek time, redundant data storage has been proposed in the literature, but the redundancy factors of those layouts are prohibitively high. In this paper, using a cost model for the seek time of a layout, we propose an algorithm that would compute a redundant data layout with a user-defined redundancy factor while maximizing the performance of the system.
+
 
 \end{abstract}
 
