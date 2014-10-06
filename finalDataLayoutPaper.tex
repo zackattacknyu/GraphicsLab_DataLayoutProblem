@@ -114,14 +114,9 @@ There are important issues to consider in order to make this idea into an algori
 
 \subsection{Which data unit in each access requirement}
 
-Since we only care about the length of each access requirement and we can only copy a single data unit at one time, we will only be copying the data units that are on the endpoints of an access requirement. This will greatly reduce the search space of data units to consider for copying. \\
-\\
-The figure below shows an example access requirement. As can be observed, if we move any of the interior units, the access requirement will stay the same length or become larger. However if we move the start or end unit, the access requirement will become shorter. 
+Note that the cost of access does not change by moving an interior block to another interior location as the total length of the access remains the same. Cost can be reduced only by moving the blocks that are at the either ends of the access requirement.This will greatly reduce the search space of data units to consider for copying. \\
 
-
-\subsection{Where to locate data unit}
-
-Since we are only allowed to move one data unit at a time, in order to maximize our benefit to our current access requirement, we want to copy the start data unit to somewhere between the one after the first one and the last one. In the same manner, if the end data unit is better, we want to copy it to somewhere between the first one and the one before the last one. Below is the access requirement from the above figure with an arrow showing the locations where the start unit can be moved to. \\
+For the sake of simplicity of the algorithm, we operate on only one data block at a time. Based on the above argument, given an access requirement, we can possibly move the beginning or the end data block of the access requirement to the interior and make it an interior block. This will reduce the total span. In order to maximize our benefit to our current access requirement, we want to copy the start data unit to somewhere between the one after the first one and the last one. In the same manner, if the end data unit is better, we want to copy it to somewhere between the first one and the one before the last one. Below is the access requirement from the above figure with an arrow showing the locations where the start unit can be moved to. \\
 \begin{figure}[ht]
 \centering
 \includegraphics[width=3in]{SingleAR_afterCopy1.jpg}
