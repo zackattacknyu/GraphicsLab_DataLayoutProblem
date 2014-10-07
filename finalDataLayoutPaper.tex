@@ -148,11 +148,9 @@ For the access requirement under consideration, it would not matter where in tha
 \\
 {\bf  Deletion of a data block:} If all the access requirements use the new copy and the old data block is not used by any access, then it can be deleted.\\
 \\
-{\bf Data Block processing order:}We now need to figure out how to use this information to decide in what order the copying should be done. For each data unit, its total benefit is the amount that is reduces the total seek time ($EST$), which is the sum of the lengths of the access requirements. \\
-\\
-For a given data unit to be copied to a specified location, let $k_i$ be the benefit to access requirement $i$ that is attached to the data unit. We will say that $k_i=0$ if the access requirement will use the old copy and $k_i>0$ if the access requirement will use the new copy. Let $I$ be the set of access requirements attached to the data unit. Finally, let $M$ be the number of overlapping access requirements at the location chosen. We can now describe the benefit as follows:
+{\bf Data Block processing order:} We now need to figure out how to use this information to decide in what order the copying should be done. For each data unit, its total benefit is the amount that is reduces the total seek time ($EST$). For a given data unit to be copied to a specified location, let $k_i$ be the benefit to access requirement $i$ that is attached to the data unit. We will say that $k_i=0$ if the access requirement will use the old copy and $k_i>0$ if the access requirement will use the new copy. Let $I$ be the set of access requirements attached to the data unit. Finally, let $M$ be the number of overlapping access requirements at the location chosen. We can now describe the benefit as follows:
 \[
-\Delta EST = \sum_{i \in I} k_i - M
+Benefit = -\Delta EST = \sum_{i \in I} k_i - M
 \]
 Before doing any actual copying, we compute the above described benefit for each start and end data unit for each access requirement. We store all the benefits into a binary search tree sorted in descending order by benefit amount. That way we will easily be able to choose the data unit that provides the most benefit in expected seek time. We will also make a special list $L$ of cases where a data unit is copied then deleted because all the access requirements will benefit. \\
 \\
