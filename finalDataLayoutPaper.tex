@@ -116,11 +116,18 @@ There are important issues to consider in order to make this idea into an algori
 
 Note that the cost of access does not change by moving an interior block to another interior location as the total length of the access remains the same. Cost can be reduced only by moving the blocks that are at the either ends of the access requirement.This will greatly reduce the search space of data units to consider for copying. \\
 
-For the sake of simplicity of the algorithm, we operate on only one data block at a time. Based on the above argument, given an access requirement, we can possibly move the beginning or the end data block of the access requirement to the interior and make it an interior block. This will reduce the total span. In order to maximize our benefit to our current access requirement, we want to copy the start data unit to somewhere between the one after the first one and the last one. In the same manner, if the end data unit is better, we want to copy it to somewhere between the first one and the one before the last one. Below is the access requirement from the above figure with an arrow showing the locations where the start unit can be moved to. \\
+For the sake of simplicity of the algorithm, we operate on only one data block at a time. Based on the above argument, given an access requirement, we can possibly move the beginning or the end data block of the access requirement to the interior and make it an interior block. This will reduce the total span. In order to maximize our benefit to our current access requirement, we want to copy the start data unit to somewhere between the one after the first one and the last one. In the same manner, if the end data unit is better, we want to copy it to somewhere between the first one and the one before the last one. Figure \ref{singleARafterCopy} shows the access requirement from the above figure with an arrow showing the locations where the start unit can be moved to. \\
 \begin{figure}[ht]
 \centering
 \includegraphics[width=3in]{SingleAR_afterCopy1.jpg}
 \caption{Interval where the start data unit can be copied to}
+\label{singleARafterCopy}
+\end{figure}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3in]{SingleAR_afterCopy2.jpg}
+\caption{Data units after the copying}
+\label{singleARafterCopy2}
 \end{figure}
 \\
 By doing this we are guaranteed to reduce the seek time for the access requirement we care about. For our own access requirement, it won't matter where in that interval we place our data unit. However, for the other access requirements that overlap a potential place to insert our data unit, we are adding one unit of seek time. Therefore, we want to find which place will interrupt the least number of access requirements. We can assume that we have already precomputed the number of overlaps at each unit. We now have the problem of given a sequence of numbers and an arbitrary block of that sequence, what is the least number in that block. For our purposes, we will do a linear search through each entry in the block in order to find the ideal entry. While in theory there are more efficient solutions, they will be impractical for our purposes, as we will describe in the next section.
