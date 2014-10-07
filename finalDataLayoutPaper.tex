@@ -254,8 +254,35 @@ Existing algorithms for the data layout problem do not consider redundancy. Even
 
 \section{Experimental Results}
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=3.0in]{city.png}
+  \caption{City model: 110 million triangle, 6 GBs. }
+  \label{fig:model1}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=3.0in]{boeing.jpg}
+  \caption{Boeing model: 350 million triangle, 20 GBs. }
+  \label{fig:model2}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=3.0in]{densecity.jpg}
+  \caption{Urban model: 100 million triangle, 12 GBs. }
+  \label{fig:model3}
+\end{figure}
+
+
+\textbf{Experiment context:}
 In order to implement our algorithm, we used a workstation that is a Dell T5400 PC with Intel (R) Core (TM) 2 Quad and $8GB$ main memory. The hard drive is a 1TB Seagate Barracuda with 7200 RPM and the graphics card is an nVIDIA Geforce GTX 260 with 896 MB GPU memory. The data rate of the hard drive is $120$ MB/s and the seek time is a minimum of $2$ ms per disk seek.\\
 \\
+\textbf{Benchmarks:}
+We use three models to perform our experiments, each model represents a use case or scenario. The City model (Figure \ref{fig:model1}) is a regular model might be used in a navigation simulation application or visual reality walkthough. The Boeing model (Figure \ref{fig:model2}), on the other hand, represents scientific or engineering visualization applications. The Urban model has texture attached to it, which is commonly used in games. By comparing performance of cache-oblivious layout without redundancy and with redundancy on these three models, our goal is to show the redundancy based approach can achieve more stable and generally better performance on different real time applications. \\
+\\
+\textbf{Results:}
 Figure \ref{fig:resultall} shows the results of delays caused by fetching data on the experimental models we used. We compare the results of a cache-oblivious layout without redundancy and one with redundancy. For the layout with redundancy, we set the redundancy factor equal to 4.2. It is clear that the performance of the layout with redundancy has generally shorter delays than the cache-oblivious layout without redundancy. As can be observed from the results, although the layout with redundancy does not eliminate delays for most of sample points on the walkthrough path, it reduces delays to a small range and keeps the performance more consistent. This is the benefit we get from using our algorithm which adds redundancy. Since the algorithm tends to eliminate seeks with longer seek time first, in practice the larger delays are avoided.\\
 \\
 
