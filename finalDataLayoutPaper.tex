@@ -112,9 +112,7 @@ In that paper, Yoon is only allowed to move the data units around. His algorithm
 \\
 There are important issues to consider in order to make this idea into an algorithm. First of all, we need to know which data units in each access requirement we should consider. We then need to figure out which access requirements to take care of first. We need to know where to insert the copied data unit. Once we copy a data unit and find its location, we need to consider whether its other access requirements should use the old or new copy. Finally, we need to decide when to stop the algorithm.  
 
-\subsection{Which data unit in each access requirement}
-
-Note that the cost of access does not change by moving an interior block to another interior location as the total length of the access remains the same. Cost can be reduced only by moving the blocks that are at the either ends of the access requirement.This will greatly reduce the search space of data units to consider for copying. \\
+{\bf Movable blocks:} Note that the cost of access does not change by moving an interior block to another interior location as the total length of the access remains the same. Cost can be reduced only by moving the blocks that are at the either ends of the access requirement.This will greatly reduce the search space of data units to consider for copying. \\
 
 For the sake of simplicity of the algorithm, we operate on only one data block at a time. Based on the above argument, given an access requirement, we can possibly move the beginning or the end data block of the access requirement to the interior and make it an interior block. This will reduce the total span. In order to maximize our benefit to our current access requirement, we want to copy the start data unit to somewhere between the one after the first one and the last one. In the same manner, if the end data unit is better, we want to copy it to somewhere between the first one and the one before the last one. Figure \ref{singleARafterCopy} shows the access requirement from the above figure with an arrow showing the locations where the start unit can be moved to. \\
 \begin{figure}[ht]
@@ -130,21 +128,21 @@ For the sake of simplicity of the algorithm, we operate on only one data block a
 \label{singleARafterCopy2}
 \end{figure}
 \\
-By doing this we are guaranteed to reduce the seek time for the access requirement we care about. For our own access requirement, it won't matter where in that interval we place our data unit. However, for the other access requirements that overlap a potential place to insert our data unit, we are adding one unit of seek time. Therefore, we want to find which place will interrupt the least number of access requirements. We can assume that we have already precomputed the number of overlaps at each unit. We now have the problem of given a sequence of numbers and an arbitrary block of that sequence, what is the least number in that block. For our purposes, we will do a linear search through each entry in the block in order to find the ideal entry. While in theory there are more efficient solutions, they will be impractical for our purposes, as we will describe in the next section.
-
-\subsection{Which data unit is used by each access requirement}
-
-A given data unit will have a few access requirements attached to it. Thus when it is copied, it may benefit other access requirements besides the one you are currently working on. For the other access requirements, if they are shorter by using the new copy then they should do that. Otherwise, they should stick to the old copy.
-
-\subsection{Which overall data units should be copied}
-
-We now have established a mechanism for shortening access requirements by copying data and potentially being able to delete the old copy. We now need to figure out how to use this information to decide in what order the copying should be done. For each data unit, its total benefit is the amount that is reduces the total seek time ($EST$), which is the sum of the lengths of the access requirements. \\
+By doing this we are guaranteed to reduce the seek time for the access requirement. For the access requirement under consideration, it would not matter where in that interval we move the extremal data unit to. However, if the new location of the data block is in the span of other access requirements, it may increase the seek time of those accesses by one unit. This is shown in Figure 3. \\
+\\
+(In Figure 3, show multiple accesses, and show how moving of data block can increase the cost of the other access. Use two subfigures a and b to show before and after.) Therefore, we find a location that in the interior of the access requirement under consideration, that is in the span of least number of access requirements. Such a location is identified using a simple linear search through the span of the access requirement.\\
+\\
+{\bf Moving versus Copying:} A data block can be accessed by multiple access requirements. It that data block is an extremal block of access, and if it is moved to its interior, it may affect other accesses that use the same data block. So instead of moving it, if that data block is copied to the interior, then the other access requirements can still access the this shared block in its old location without any change in its access cost. Nevertheless, if by using the new copy, if the access cost of one or more of other access requirements reduces, then those access requirements should use the new copy instead of the old copy.  However, due to this copying, the redundancy factor would increase. \\
+\\
+{\bf  Deletion of a data block:} If all the accesses use the new copy and the old data block is not used by any access, then it can be deleted.\\
+\\
+{\bf Data Block processing order:}We now need to figure out how to use this information to decide in what order the copying should be done. For each data unit, its total benefit is the amount that is reduces the total seek time ($EST$), which is the sum of the lengths of the access requirements. \\
 \\
 For a given data unit to be copied to a specified location, let $k_i$ be the benefit to access requirement $i$ that is attached to the data unit. We will say that $k_i=0$ if the access requirement will use the old copy and $k_i>0$ if the access requirement will use the new copy. Let $I$ be the set of access requirements attached to the data unit. Finally, let $M$ be the number of overlapping access requirements at the location chosen. We can now describe the benefit as follows:
 \[
-\Delta EST = M - \sum_{i \in I} k_i
+\Delta EST = \sum_{i \in I} k_i - M
 \]
-Before doing any actual copying, we will compute the above described benefit for each start and end data unit for each access requirement. We will put all the benefits into a binary search tree sorted in ascending order by benefit amount. That way we will easily be able to choose the data unit that provides the most negative change in expected seek time. We will also make a special list $L$ of cases where a data unit is copied then deleted because all the access requirements will benefit. \\
+Before doing any actual copying, we compute the above described benefit for each start and end data unit for each access requirement. We store all the benefits into a binary search tree sorted in descending order by benefit amount. That way we will easily be able to choose the data unit that provides the most benefit in expected seek time. We will also make a special list $L$ of cases where a data unit is copied then deleted because all the access requirements will benefit. \\
 \\
 Because doing the copying in $L$ does not increase the storage, we will first go through that list and do the copying. Once that list is empty we will take the data unit in the binary search tree that provides the most benefit and perform the copy. We will then recompute $L$ and the binary search tree. We will continue to do those steps until we have run out of available space for redundancy.  
 
