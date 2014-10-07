@@ -128,10 +128,22 @@ Figure \ref{singleARafterCopy} shows the access requirement from the above figur
 \label{singleARafterCopy2}
 \end{figure}
 \\
-For the access requirement under consideration, it would not matter where in that interval we move the extremal data unit to. However, if the new location of the data block is in the span of other access requirements, it may increase the seek time of those accesses by one unit. This is shown in Figure 3. \\
-\\
-(In Figure 3, show multiple accesses, and show how moving of data block can increase the cost of the other access. Use two subfigures a and b to show before and after.) Therefore, we find a location that in the interior of the access requirement under consideration, that is in the span of least number of access requirements. Such a location is identified using a simple linear search through the span of the access requirement.\\
-\\
+For the access requirement under consideration, it would not matter where in that interval we move the extremal data unit to. However, if the new location of the data block is in the span of other access requirements, it may increase the seek time of those accesses by one unit. Figure \ref{singleARafterCopyOtherAR} shows the above situation before the copying and highlights the gray access requirement that will be affected. As can be observed in figure \ref{singleARafterCopy2OtherAR} the gray access requirement has had its span increased by 1. Affecting only one access requirement, the gray one, was the least number of access requirements to affect in that interval. Therefore in general, we find a location that in the interior of the access requirement under consideration, and that is in the span of least number of access requirements. Such a location is identified using a simple linear search through the span of the access requirement.\\
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3in]{SingleAR_afterCopy1_otherARnoted.jpg}
+\caption{Interval where the start data unit can be copied to}
+\label{singleARafterCopyOtherAR}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3in]{SingleAR_afterCopy2_otherARnoted.jpg}
+\caption{Data units after the copying}
+\label{singleARafterCopy2OtherAR}
+\end{figure}
+
 {\bf Moving versus Copying:} A data block can be accessed by multiple access requirements. It that data block is an extremal block of access, and if it is moved to its interior, it may affect other accesses that use the same data block. So instead of moving it, if that data block is copied to the interior, then the other access requirements can still access the this shared block in its old location without any change in its access cost. Nevertheless, if by using the new copy, if the access cost of one or more of other access requirements reduces, then those access requirements should use the new copy instead of the old copy.  However, due to this copying, the redundancy factor would increase. \\
 \\
 {\bf  Deletion of a data block:} If all the accesses use the new copy and the old data block is not used by any access, then it can be deleted.\\
