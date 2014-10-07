@@ -112,7 +112,9 @@ In that paper, Yoon is only allowed to move the data units around. His algorithm
 \\
 {\bf Movable blocks:} Note that the cost of access does not change by moving an interior block to another interior location as the total length of the access requirement remains the same. Cost can be reduced only by moving the blocks that are at the either ends of the access requirement.This will greatly reduce the search space of data units to consider for copying. \\
 \\
-For the sake of simplicity of the algorithm, we operate on only one data block at a time. Based on the above argument, given an access requirement, we can possibly move the beginning or the end data block of the access requirement to the interior and make it an interior block. This will reduce the total span. In order to maximize our benefit to our current access requirement, we want to copy the start data unit to somewhere between the one after the first one and the last one. In the same manner, if the end data unit is better, we want to copy it to somewhere between the first one and the one before the last one. Figure \ref{singleARafterCopy} shows the access requirement from the above figure with an arrow showing the locations where the start unit can be moved to. \\
+For the sake of simplicity of the algorithm, we operate on only one data block at a time. Based on the above argument, given an access requirement, we can possibly move the beginning or the end data block of the access requirement to the interior and make it an interior block. This will reduce the total span. In order to maximize our benefit to our current access requirement, we want to copy the start data unit to somewhere between the one after the first one and the last one. In the same manner, if the end data unit is better, we want to copy it to somewhere between the first one and the one before the last one. \\
+\\
+Figure \ref{singleARafterCopy} shows the access requirement from the above figure with an arrow showing the locations where the start unit can be moved to. By moving it to one of the these lcoations we are guaranteed to reduce the seek time for the access requirement. Figure \ref{singleARafterCopy2} shows the blue access requirement after the start unit has been copied. The dashed line connects the original data unit with its copy. The solid blue lines represent the new total span of the blue access requirement. The span of the blue access requirement has been reduced from 14 units in figure \ref{singleARafterCopy} to 12 units in figure \ref{singleARafterCopy2}.\\
 \begin{figure}[ht]
 \centering
 \includegraphics[width=3in]{SingleAR_afterCopy1.jpg}
@@ -126,7 +128,7 @@ For the sake of simplicity of the algorithm, we operate on only one data block a
 \label{singleARafterCopy2}
 \end{figure}
 \\
-By doing this we are guaranteed to reduce the seek time for the access requirement. For the access requirement under consideration, it would not matter where in that interval we move the extremal data unit to. However, if the new location of the data block is in the span of other access requirements, it may increase the seek time of those accesses by one unit. This is shown in Figure 3. \\
+For the access requirement under consideration, it would not matter where in that interval we move the extremal data unit to. However, if the new location of the data block is in the span of other access requirements, it may increase the seek time of those accesses by one unit. This is shown in Figure 3. \\
 \\
 (In Figure 3, show multiple accesses, and show how moving of data block can increase the cost of the other access. Use two subfigures a and b to show before and after.) Therefore, we find a location that in the interior of the access requirement under consideration, that is in the span of least number of access requirements. Such a location is identified using a simple linear search through the span of the access requirement.\\
 \\
