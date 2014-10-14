@@ -284,28 +284,14 @@ In the algorithm, we make a list of data units that will reduce seek time by jus
 \label{YoonImprovement}
 \end{figure}
 
-Existing algorithms for the data layout problem do not consider redundancy. Even if we find a polynomial time algorithm that solves the data layout problem, we can actually achieve a seek time better than the optimal one without redundancy. Figure \ref{fig:startingProb} shows a case where that happens. The total seek time is 11 units. Without redundancy, the optimal solution is shown in Figure \ref{woRedundacy}. The seek time has been reduced to 9 units. With redundancy, the total seek time is now the minimum required which is 7 units, as shown in Figure \ref{withRedundancy}. While a reduction from 9 to 7 units may not seem dramatic, when this result is scaled up to the hundreds of millions, this makes a big difference in seek time, which we saw in practice.\\
+Existing algorithms for the data layout problem do not consider redundancy. Even if we find a polynomial time algorithm that solves the data layout problem, we can actually achieve a seek time better than the optimal one without redundancy. We have such an example with figure \ref{fig:startingProb}. As can be seen in the figure, the total seek time is 11 units originally. Without redundancy, the seek time is reduced to 9 units, as found through a brute-force search. With redundancy, the total seek time is the minimum required which is 8 units. While a reduction from 9 to 8 units may not seem dramatic, when this result is scaled up to the hundreds of millions, this makes a big difference in seek time, which we saw in practice.\\
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=3in]{examplePic_startingProblem.png}
-\caption{Data Units with varying access requirements}
+\includegraphics[width=3in]{examplePic.png}
+\caption{Data Units with varying access requirements (top) as well as its optimal layout without redundancy (middle) and its optimal layout with redundancy (bottom)}
 \label{fig:startingProb}
 \end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=3in]{examplePic_woRedundancy.png}
-\label{woRedundacy}
-\caption{Optimal layout without redundancy}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=3in]{examplePic_withRedundancy.png}
-\label{withRedundancy}
-\caption{Optimal layout with redundancy. The data unit E' is the redundant copy of E.}
-\end{figure} 
 
 \section{Conclusion and Future Work}
 
