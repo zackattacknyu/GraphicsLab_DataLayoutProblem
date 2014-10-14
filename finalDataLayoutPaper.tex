@@ -154,51 +154,51 @@ Because doing the moving for the list $L$ does not increase the storage, we will
 
 \subsection{Algorithm Summary}
 
+As a summary, the psuedo-code of this algorithm is shown as algorithm \ref{pseudocode}.
+
 \begin{algorithm}
- \KwData{data units each with at least one access requirement (AR)}
- \KwResult{data layout with redundancy and reduced expected seek time}
- initialization\;
- \While{not at end of this document}{
-  read current\;
-  \eIf{understand}{
-   go to next section\;
-   current section becomes this one\;
-   }{
-   go back to the beginning of current section\;
-  }
- }
- \caption{How to write algorithms}
+Start with the data units which each with at least one access requirement (AR)\;
+Initialize AR heap H and list L\;
+\For{each data unit}{
+	Find number of overlapping access requirements and store the number with the data unit\;
+}
+\For{each AR P's head and tail data units U}{
+	make old copy list L' empty\;
+	\eIf{U is head data unit}{
+		Let S = data unit in P after U\;
+	}{
+		Let S = data unit in P before U\;
+	}
+	Set BENEFIT=distance(S,U)\;
+	Let U' be the potential copy of U\;
+	Search data units between S and U for min number of overlapping ARs and put U' there\;
+	\For{each AR T that also uses U}{
+		\eIf{T will be shorter by using U'}{
+			Add T's benefit to BENEFIT\;
+		}{
+			Add T to list L'\;
+		}
+	}
+	Add BENEFIT to heap H\;
+	\If{L' is empty}{
+		add U to list L\;
+	}
+}
+\While{BREAK has not been called}{
+		\While{L is not empty}{
+			Take out random element and move the data unit\;
+			Update heap H and list L\;
+		}
+		\eIf{there is more space for redundancy}{
+		pop best element U from H\;
+		copy U to its destination\;
+		update affected access requirements\;
+		update H and L\;
+		}{ call BREAK}
+}
+\caption{Pseudo-code for our algorithm}
+\label{pseudocode}
 \end{algorithm}
-
-\begin{verbatim}
-
-AR: access requirement
-
-Initialize AR heap and newCopy list
-for each AR P's head node and tail node U:
-     Let S = next or previous node
-     Set BENEFIT=distance(S,U)
-     Let copy of U be U'
-     Put U' in place between S and U with:
-          least number of overlapping ARs
-     For each AR T that also uses U
-          If T will be shorter by U':
-               Add T's benefit to BENEFIT
-          Else:
-               Add T to oldCopyList
-     Add BENEFIT to heap
-     If oldCopyList is empty:
-          add U to newCopy list
-while newCopy is not empty:
-     take out random element and move the node
-     Update AR heap and newCopy list
-while there exists more space for redundancy:
-     pop best element from heap
-     copy the element U to its destination
-     update affected access requirements
-     update heap
-
-\end{verbatim}
 
 \section{Run-time and Storage Analysis}
 
