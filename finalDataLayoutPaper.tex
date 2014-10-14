@@ -150,11 +150,7 @@ Benefit = -\Delta EST = \sum_{i \in I} k_i - |J|
 \]
 Before doing any actual copying, we compute the above described benefit for each start and end data unit for each access requirement. We store all the benefits into a binary search tree sorted in descending order by benefit amount. That way we will easily be able to choose the data unit that provides the most benefit in expected seek time. We will also make a special list $L$ of cases where a data unit is copied then deleted because all the access requirements will benefit. \\
 \\
-Because doing the moving for the list $L$ does not increase the storage, we will first go through that list and perform those moves. Once that list is empty we will take the data unit in the binary search tree that provides the most benefit and perform the copy. We will then recompute $L$ and the binary search tree. We will continue to do those steps until we have run out of available space for redundancy.  
-
-\subsection{Algorithm Summary}
-
-As a summary, the psuedo-code of this algorithm is shown as algorithm \ref{pseudocode}.
+Because doing the moving for the list $L$ does not increase the storage, we will first go through that list and perform those moves. Once that list is empty we will take the data unit in the binary search tree that provides the most benefit and perform the copy. We will then recompute $L$ and the binary search tree. We will continue to do those steps until we have run out of available space for redundancy. As a summary, the psuedo-code of this algorithm is shown as algorithm \ref{pseudocode}.
 
 \begin{algorithm}
 Start with the data units which each with at least one access requirement (AR)\;
@@ -192,7 +188,7 @@ Initialize AR heap H and list L\;
 		\eIf{there is more space for redundancy}{
 		pop best element U from H\;
 		copy U to its destination\;
-		update affected access requirements\;
+		update nodes in H and entries in L for affected access requirements\;
 		update H and L\;
 		}{ call BREAK}
 }
@@ -202,15 +198,15 @@ Initialize AR heap H and list L\;
 
 \section{Run-time and Storage Analysis}
 
-We now need to analyze the running time and storage requirements of our algorithm. We will denote $N$ as the number of data units and $A$ as the number of access requirements. We will use $k$ as the average length of a single access requirement. The variable $Q$ will represent the number of runs of the redundancy and new copy loop. The average number of overlapping access requirements is proportional to the number of data units multiplied by the redundancy factor $r$, which is the amount of redundancy if we have a single-seek layout. Therefore, the number of overlapping access requirements is O(rN). 
+We now analyze the running time and storage requirements of our algorithm. We will denote $N$ as the number of data units and $A$ as the number of access requirements. We will use $k$ as the average span of a single access requirement. The variable $Q$ will represent how many executions of the redundancy loop occur. The average number of overlapping access requirements is proportional to the number of data units multiplied by the redundancy factor $r$, which is the amount of redundancy if we have a single-seek layout. Therefore, the number of overlapping access requirements is $O(rN)$. 
 
 \subsection{Run-time Analysis}
 
-The Initial Construction loop is run on all A access requirements. It involves finding all the benefit information and putting it into a heap so that it is easy to figure out the best access requirement to modify first. There are log(A) operations to insert the data into the heap and a constant number of operations plus O(k) operations for the search of the AR to get the benefit information. Thus it takes a total of $O(A \cdot k \cdot logA)$ operations to do the initial construction. \\
+The loop that initially constructs the access requirement heap is run on all $A$ access requirements. It involves finding all the benefit information and putting it into a heap so that it is easy to figure out the best access requirement to modify first. With each run of the loop, in addition to a constant number of initial operations, there are $log(A)$ operations to insert the data into the heap plus $O(k)$ operations for the search of the AR to get the benefit information. Thus it takes a total of $O(A (k + logA))$ operations to do the initial construction. \\
 \\
-With the new copy and redundancy loops, there are O(rN) overlapping access requirements and a constant number of operations for each access requirement. Then, the algorithm reforms the heap and updates the nodes in the AR. With that, there are $O(log(A))$ operations done a constant number of times plus O(k) operations for updating the data nodes in the access requirement. Thus the redundancy and new copy loop takes $O(Q(k \cdot logA + rN))$ operations. \\
+With the following loop which actually copies the data units and updates the information, there are a total of $Q$ executions of it. In addition to the constant number of operations, each execution of the loop has to go through each of the overlapping access requirements and update their data. There are $O(rN)$ overlapping access requirements. For each of the affected access requirements, there are $O(k + log(A))$ operations to recalculate the benefit data and reform the heap. Thus the final loop takes $O(QrN(k + logA))$ operations. \\
 \\
-This means that in total, our algorithm takes $O( k \cdot logA (Q+A) + rN)$ operations. 
+This means that in total, our algorithm takes $O((QrN + A)(k + logA))$ operations. In all likelihood, we will have to run the loop at least once, so $Q \geq 1$. Additionally, since $r \geq 1$, we know that $rN \geq A$. Thus we can simplify the expression to say that our algorithm takes $O(QrN(k + logA))$ operations. Because we only have polynomial or logarithmic terms, we have found an algorithm that is efficient given our input size for computing an optimized layout.
 
 \subsection{Storage Analysis}
 
