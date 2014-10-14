@@ -125,34 +125,21 @@ In \cite{cacheobliviouslayout}, the only allowed operation on the data units is 
 \\
 {\bf Location of copies:} Based on the above observation, given an access requirement, we can possibly move the beginning or the end data block of the access requirement to the interior and make it an interior block. This will reduce its span, thus reducing the EST for the layout. In order to maximize our benefit to our current access requirement, we want to copy the start data unit to somewhere between the one after the first one and the last one. In the same manner, we want to copy the end unit to somewhere between the first one and the one before the last one. \\
 \\
-Figure \ref{singleARafterCopy} shows the access requirement from the above figure with an arrow showing the locations where the start unit can be moved to. By moving it to one of the these locations we are guaranteed to reduce the span of the access requirement. Figure \ref{singleARafterCopy2} shows the blue access requirement after the start unit has been copied. The dashed line connects the original data unit with its copy. The solid blue lines represent the new span of the blue access requirement. Because the start unit has been copied and its copy is being used, it no longer is needed and is thus not counted in the new span for the blue access requirement. The span of the blue access requirement has been reduced from 14 units in figure \ref{singleARafterCopy} to 12 units in figure \ref{singleARafterCopy2}.\\
+Figure \ref{singleARafterCopy} shows the access requirement from the above figure with an arrow showing the locations where the start unit can be moved to as well as what the access requirement looks like after the copy. By moving it to one of the these locations we are guaranteed to reduce the span of the access requirement. The dashed line connects the original data unit with its copy. The solid blue lines represent the new span of the blue access requirement. Because the start unit has been copied and its copy is being used, it no longer is needed and is thus not counted in the new span for the blue access requirement. The span of the blue access requirement has been reduced from 14 units to 12 units.\\
 \begin{figure}[ht]
 \centering
-\includegraphics[width=3in]{SingleAR_afterCopy1.jpg}
-\caption{Interval where the start data unit can be copied to}
+\includegraphics[width=3in]{SingleAR_afterCopy.jpg}
+\caption{Interval where the start data unit can be copied to (top) and the data units after the copy (bottom)}
 \label{singleARafterCopy}
-\end{figure}
-\begin{figure}[ht]
-\centering
-\includegraphics[width=3in]{SingleAR_afterCopy2.jpg}
-\caption{Data units after the copying}
-\label{singleARafterCopy2}
 \end{figure}
 \\
 For the access requirement under consideration, it does not matter where in the specified interval our data unit is moved. However, if the new location of the data block is in the span of other access requirements, it increases the seek time of those accesses by one unit. We thus want to find a location that in the interior of the access requirement under consideration but is in the span of least number of access requirements. Such a location is identified using a simple linear search through the span of the access requirement. Figure \ref{singleARafterCopyOtherAR} shows the data units in figure \ref{singleAR} before the copying and highlights the gray access requirement that will be affected. As can be observed in figure \ref{singleARafterCopy2OtherAR} the gray access requirement has had its span increased by 1. Even though we reduced the total span by 2 with the blue access requirement, we also increased the total span by 1 with the gray access requirement, yielding a net benefit of 1 data unit. If you search through all the spots in the interior of the blue access requirement, then the spot chosen had the least number of overlapping access requirements at 1.\\
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=3in]{SingleAR_afterCopy1_otherARnoted.jpg}
-\caption{The blue and gray access requirements}
+\includegraphics[width=3in]{SingleAR_afterCopy_otherARnoted.jpg}
+\caption{The blue and gray access requirements before (top) and after (bottom) the copying}
 \label{singleARafterCopyOtherAR}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=3in]{SingleAR_afterCopy2_otherARnoted.jpg}
-\caption{The blue and gray access requirements after the copy}
-\label{singleARafterCopy2OtherAR}
 \end{figure}
 
 {\bf Moving versus Copying:} A data block can be accessed by multiple access requirements. If that data block is an extremal block of access, and if it is moved to its interior, it may affect other access requirements that use the same data block. That is the main reason that we are copying and not moving these data blocks. By copying the data unit the other access requirements can still access it in its old location without any change in their span. Nevertheless, if by using the new copy the span of one or more of the other access requirements reduces, then those access requirements should use the new copy instead of the old copy. If all the access requirements use the new copy and the old data block is not used by any access, then it can be deleted. In this later case, we are really moving the data block. \\
