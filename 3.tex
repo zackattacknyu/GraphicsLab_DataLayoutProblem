@@ -24,7 +24,7 @@ Instead of trying to find the seek time explicitly while
 running, we use this
 one dimensional layout to compute a probabilistic estimate for the seek time. A
 cache-oblivious measure was introduced to measure the expected number of cache
-misses~\cite{cacheobliviouslayout}\YOON{Year is not shown}. This measure is
+misses~\cite{cacheobliviouslayout}. This measure is
 based on the span of a simple access requirement consisting of two data access.
 Note that every time we have cache misses, we would have to seek data from the
 hard disk. We extend this idea by thinking of an individual cache miss as an
@@ -71,8 +71,7 @@ Figure \ref{singleARafterCopy} shows the access requirement from the above figur
 \centering
 \includegraphics[width=3in]{SingleAR_afterCopy.jpg}
 \caption{Interval where the start data unit can be copied to (top) and the data
-units after the copy (bottom)\YOON{no need to have arrow in the bottom figure.
-}
+units after the copy (bottom)
 }
 \label{singleARafterCopy}
 \end{figure}
@@ -100,17 +99,16 @@ and the old data block is not used by any access, then it can be deleted. In
 this later case, we are really moving the data block. \\
 \\
 {\bf Data Block processing order:} 
-\YOON{This is an important paragraph, but its exposition is unclear.}
 We now need to figure out how to use this
 information to decide in what order the copying should be done. For each data
 unit, its total benefit is the amount that is reduces the total seek time
 ($EST$). For a given data unit to be copied to a specified location, let $k_i$
 be the benefit to access requirement $i$ that is attached to the data unit. We
-will say that $k_i=0$ if the access requirement will use the old copy and
-$k_i>0$ \YOON{why you consider the positive ones? you don't allow local relaxation by allowing negative benefit. If so, clarify this.} if the access requirement will use the new copy. Let $I$ be the set of
-access requirements attached\YOON{Unclear on what you exactly meant by attached. You mean that access requirements, either one of whose two end data units is the given data?} to the data unit. Let $J$ be the set of access
+will say that $k_i=0$ if the access requirement will use the old copy and not have its span increased by the addition of a new copy, $k_i=-1$ if the access requirement will use the old copy but still have its span increased, and
+$k_i>0$ if the access requirement will use the new copy. Let $I$ be the set of
+access requirements that use the data unit. Let $J$ be the set of access
 requirements not in $I$ whose span overlaps our data units. We can now describe
-the benefit as follows: \YOON{Why - in front of delta?}
+the benefit, the reduction in seek time, as follows:
 \[
 Benefit = -\Delta EST = \sum_{i \in I} k_i - |J|.
 \]
@@ -132,8 +130,8 @@ Initialize AR, heap H, and list L\;
 	Find number of overlapping access requirements and store the number with the data unit\;
 }
 \For{each AR P's head and tail data units U}{
-	make old copy list L' empty\; \YOON{unclear why you use this list.}
-	\eIf{U is head data unit}{ \YOON{no point to introduce S. just say copy data appropriate location.}
+	make old copy list L' empty\;
+	\eIf{U is head data unit}{
 		Let S = data unit in P after U\;
 	}{
 		Let S = data unit in P before U\;
@@ -141,6 +139,7 @@ Initialize AR, heap H, and list L\;
 	Set BENEFIT=distance(S,U)\;
 	Let U' be the potential copy of U\;
 	Search data units between S and U for min number of overlapping ARs and put U' there\;
+	make old copy list L', the list that stores the ARs that will use the old data unit, empty\;
 	\For{each AR T that also uses U}{
 		\eIf{T will be shorter by using U'}{
 			Add T's benefit to BENEFIT\;
