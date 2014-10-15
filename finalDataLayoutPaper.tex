@@ -53,9 +53,9 @@ Performance of interactive graphics walkthrough systems depend on the time taken
 
 \end{abstract}
 
-\begin{CRcatlist}
-  \CRcat{I.3.6}{Computer Graphics}{Methodology and Techniques}{Graphics data structures and data types};
-\end{CRcatlist}
+%\begin{CRcatlist}
+%  \CRcat{I.3.6}{Computer Graphics}{Methodology and Techniques}{Graphics data structures and data types};
+%\end{CRcatlist}
 
 \keywordlist
 
@@ -81,13 +81,13 @@ because of its stability and low cost per unit. As an example, according to~\cit
 
 \subsection{Redundancy based data layouts}
 
-In this paper, we leverage the inexpensive nature of HDDs to store redundant copies of data in order to reduce the seek time. Adding redundancy for improving the data access time is a classic approach, e.g., RAID~\cite{Patterson88}.  We are also not first to consider the redundancy for the walkthrough applications.  Redundancy based data layouts to reduce the seek time were introduced in a recent work~\cite{singleseeklayout}, in which the seek time for every access was reduced to at most one unit. However, in order to achieve this property, the redundancy factor, the ratio between the size of the data after using redundancy to the original size of the data, was prohibitively high, around 80. \\
+In this paper, we leverage the inexpensive nature of HDDs to store redundant copies of data in order to reduce the seek time. Adding redundancy in order to improve the data access time is a classic approach, e.g., RAID~\cite{Patterson88}.  We are also not the first to consider redundancy for walkthrough applications.  Redundancy based data layouts to reduce the seek time were introduced in a recent work~\cite{singleseeklayout}, in which the number of seeks for every access was reduced to at most one unit. However, in order to achieve this property, the redundancy factor -- the ratio between the size of the data after using redundancy to the original size of the data was prohibitively high -- around 80. \\
 \\
-Another recent work \cite{optimizingredundancy} introduced a transfer volume, which dictates the data transfer time, seek time, and redundancy, and proposed a linear programming approach to optimize the data transfer and seek time in order to satisfy the total data fetch time constraint. In the process, redundancy was a hidden variable that was minimized. Unfortunately, this approach does not directly model redundancy nor seek time, and thus can have unnecessary data blocks and unrealistic seek times. 
+Another recent work \cite{optimizingredundancy} related a transfer volume, which dictates the data transfer time, seek time, and redundancy, and proposed a linear programming approach to optimize the data transfer and seek time in order to satisfy the total data fetch time constraint. In the process, redundancy was a hidden variable that was minimized. Unfortunately, this approach does not directly model redundancy or seek time, and thus can have unnecessary data blocks and unrealistic seek times. 
 
 \subsection{Main Contributions}
 
-In this paper, we propose a model for seek time based on the actual distance between the data blocks in the linear data layout. Using this model, and given the spatial proximity of the data set for a walkthrough application, we develop an algorithm to duplicate data blocks strategically to maximize the reduction in the seek time while keeping the redundancy factor within the user defined bound. We will show that our greedy solution generates both the extreme cases of data layout with redundancy, no redundancy (a simple cache oblivious mesh layout with low number of seeks) and maximum redundancy (a layout where seek time is at most one), as well as reasonable solutions for the redundancy factor constraints in between the extremes. When our algorithm was implemented for walkthrough applications, we were able to noticeably reduce the average delay and make the performance much more consistent. 
+In this paper, we propose a model for seek time based on the actual distance between the data blocks in the linear data layout. Using this model, and given the spatial proximity of the data set for a walkthrough application, we develop an algorithm to duplicate data blocks strategically to maximize the reduction in the seek time while keeping the redundancy factor within the user defined bound. We will show that our greedy solution generates both the extreme cases of data layout with redundancy, namely the no redundancy case (a simple cache oblivious mesh layout with low number of seeks) and the maximum redundancy case (a layout where seek time is at most one), as well as reasonable solutions for the redundancy factor constraints in between the extremes. We show that the implementation of our algorithm significantly reduces average delay between frames and noticeably improves the consistency of performance and interactivity.
 
 \section{Related Work}
 
