@@ -57,17 +57,16 @@ order to achieve this property, the redundancy factor -- the ratio between the
 size of the data after using redundancy to the original size of the data -- was
 prohibitively high around 80. \\
 \\
-Another recent work \cite{optimizingredundancy}
-related a transfer volume\YOON{transfer volume is introduced here, but never used in below.}, which dictates the data transfer time, seek time,
+Another recent work \cite{optimizingredundancy} took the data transfer time, seek time,
 and redundancy, and proposed a linear programming approach to optimize the data
-transfer and seek time\YOON{You meant transfer volume. Overall this paragraph is unclear.} in order to satisfy the total data fetch time
+transfer and seek time in order to satisfy the total data fetch time
 constraint. In the process, redundancy was a hidden variable that was
 minimized. Unfortunately, this approach does not directly model redundancy or
 seek time, and thus can have unnecessary data blocks and unrealistic seek
 times. 
 
 %\subsection{Main Contributions}
-\paragraph{Main contributions.}
+{\bf Main contributions:}
 In this paper, we propose a model for seek time based on the actual
 number of units
 between the data blocks in the linear data layout. Using this model, and given
@@ -77,8 +76,7 @@ in the seek time, while keeping the redundancy factor within the user defined
 bound. We will show that our greedy solution can generate both the extreme cases
 of data layout with redundancy, namely the no redundancy case (a simple cache
 oblivious mesh layout with a potentially high seek time) and the maximum redundancy case
-(a layout where seek time is at most one), as well as reasonable solutions for
-the redundancy factor constraints in between the extremes. We show that the
+(a layout where seek time is at most one), as well as reasonable solutions for redundancy factor constraints in between the extremes. We show that the
 implementation of our algorithm significantly reduces average delay between
 frames and noticeably improves the consistency of performance and
 interactivity.

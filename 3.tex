@@ -10,37 +10,28 @@ That was one example of data units and their access requirements. In general, th
 \begin{figure}[ht]
 \centering
 \includegraphics[width=3in]{SingleAR_start.png}
-\caption{Illustration of data units and a single access
-requirement. The blocks are data units and the colors represent access
-requirements. The curves connect data blocks with the same access requirement
+\caption{Illustration of linear order of data units and three example access requirements.
+The lines connect data blocks that belong to the same access requirement
 and represent parts of the span of an access requirement.}
 \label{singleAR}
 \end{figure}
 
-\YOON{This is a very important paragraph. I refined it, but it still comes
-across weak to me.}
-Instead of trying to find the seek time explicitly while
-running, we use this
-one dimensional layout to compute a probabilistic estimate for the seek time. A
-cache-oblivious measure was introduced to measure the expected number of cache
-misses~\cite{cacheobliviouslayout}. This measure is
-based on the span of a simple access requirement consisting of two data access.
-Note that every time we have cache misses, we would have to seek data from the
-hard disk. We extend this idea by thinking of an individual cache miss as an
-individual seek.
-As a result, we define the Expected Seek Time (EST) as the total sum of
-individual spans of access requirement.
-%that could be required. 
-Let $I$ be the set of access requirements and $A_i$
-represent the span of access requirement $i$. 
-%Because data units in an access
-%requirement will be accessed together, 
-We then have the following definition. 
+\subsection{Seek Time Measure}
+Given a linear order of data units and the access requirements, and assuming that each access requirement
+is equally likely to be used, we would like to estimate the seek time for that application.
+For each access requirement the read head of the hard disk has to move from the first data block to the last
+irrespective of whether the intermediate blocks are read or skipped. Hence the span of an access requirement
+is a measure of seek time - time taken to seek the last data unit starting from the first data unit.
+Let $I$ be the set of access requirements and $A_i$ represent the span of the access requirement $i$.
+Then estimated total seek time EST is given by 
 \[
-EST = \sum_{i \in I} A_i
+EST = \sum_{i \in I}{A_i}
 \]
+It is interesting to note that \cite{cacheobliviouslayout}
+used span to measure the expected number of cache misses.
+Typically, with every cache miss, the missing data will be sought in the disk and fetched,
+thus adding to the seek time. Hence using span to measure the seek time is justified.
 
-\YOON{We need to show some validation of this definition. Gopi mentioned that a prior work supported to use the span as a seek time. Can we mention that one here?}
 
 \subsection{Algorithm Description}
 
