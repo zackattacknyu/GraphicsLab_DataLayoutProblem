@@ -1,17 +1,16 @@
 
-\section{Greedy Redundancy-based Cache Oblivious Data Layout Algorithm}
+\section{Redundancy-based Cache Oblivious Data Layout Algorithm}
 
 \subsection{Definitions}
 
-For the purposes of this paper, we are given uniform data units in a linear sequence and each data unit has one or more access requirements assigned to it. An individual data unit consists of geometric primitive data or other information that must be retrieved during walkthrough rendering. The access requirements are determined by the application and represent data units that will be accessed together. An example of this could be vertices that are spatially near each other. \\
+Let us assume that the walkthrough scene data, including all the levels of details of the model, are partitioned into equal sized data blocks (say 4KB) called data units. This is the atomic unit of data that is accessed and fetched from the disk. Typically, vertices and triangles that are spatially together (and belong to the same level of detail), have high chances of being rendered together, and hence can be grouped together in a data unit. All the data units required to render a scene from a viewpoint is labeled as an {\em access requirement}. In order to minimize the number of access requirements, the navigation space in the walkthrough scene, which defines the space of all possible view points, is partitioned into grids and all the viewpoints within each grid is grouped together to define one access requirement. Thus the number of grid partitions define the number of access requirements. Clearly, primitives in a data unit can be visible from many viewpoints, and hence that data unit will be part of many access requirements. \\
 \\
-For an access requirement $A$, the total span of $A$ is the total number of data units between the first and last data units that use $A$. If a data unit is not required by $A$ but lies between the first and last unit of $A$ then it is still counted in the span of $A$. Figure \ref{singleAR} shows a set of data units and explicitly labels the blue access requirement in this set. The total number of data units between the first and last blue unit is 14 thus that is the total length of the blue access requirement.\\
+That was one example of data units and their access requirements. In general, the access requirements are determined by the application and are meant to be sets of data units that are likely to be accessed together. Given a linear ordering of data units that may eventually be the order in which they are stored in the hard drive, for an access requirement $A$, the total span of $A$ is the total number of data units between the first and last data units that use $A$. If a data unit is not required by $A$ but lies between the first and last unit of $A$ then it is still counted in the span of $A$. Figure \ref{singleAR} shows a set of data units and explicitly labels the blue access requirement in this set. The total number of data units between the first and last blue unit is 14 thus that is the total length of the blue access requirement.\\
 \\
 \begin{figure}[ht]
 \centering
-\includegraphics[width=3in]{SingleAR_start.jpg}
-\caption{\YOON{Use PNG or some other formats that does not have much
-compression artifacts.}Illustration of data units and a single access
+\includegraphics[width=3in]{SingleAR_start.png}
+\caption{Illustration of data units and a single access
 requirement. The blocks are data units and the colors represent access
 requirements. The curves connect data blocks with the same access requirement
 and represent parts of the span of an access requirement.}
