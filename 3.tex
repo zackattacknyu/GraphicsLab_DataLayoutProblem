@@ -94,6 +94,7 @@ requirements will benefit. \\
 Because doing the moving for the list $L$ does not increase the storage, we will first go through that list and perform those moves. After each of the moves we have to recompute the costs and update the tree and list. Once $L$ is empty we will take the data unit in the binary search tree that provides the most benefit and perform the copy. We will then recompute $L$ and the binary search tree. We will continue to do those steps until we have run out of available space for redundancy. As a summary, the psuedo-code of this algorithm is shown as algorithm \ref{pseudocode}.
 
 \begin{algorithm}
+\YOON{The current pseudo code seems to be very long and verbose. This can give an impression that the algorithm is complex, while the proposed one is very simple.}
 Start with the data units which each with at least one access requirement (AR)\;
 Initialize AR, heap H, and list L\;
 \For{each data unit}{
