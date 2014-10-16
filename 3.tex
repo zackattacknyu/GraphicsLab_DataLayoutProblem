@@ -52,15 +52,8 @@ requirement. This observation greatly reduces the search space of data units to
 consider for copying. For the sake of simplicity of the algorithm, we operate
 on only one data block at a time. \\
 \\
-{\bf Location to Copy:} Based on the above observation, given an access requirement, we can possibly move the beginning or the end data units of an access requirement to its interior. This will reduce its span, thus reducing the EST for the layout. However, if the new location of the data unit is in the span of other access requirements, it increases the span of those accesses by one unit. We thus want to find a location in the span of the access requirement under consideration but is in the span of the least number of other access requirements. Such a location is identified using a simple linear search through the span of the access requirement. Figure \ref{singleARafterCopyOtherAR} shows the data units in figure \ref{singleAR} before the copying and highlights the gray access requirement that will be affected. As can be observed in figure \ref{singleARafterCopyOtherAR} the gray access requirement has had its span increased by 1. Even though we reduced the total span by 2 with the blue access requirement, we also increased the total span by 1 with the gray access requirement, yielding a net benefit of 1 data unit. Among all the spots in the interior of the blue access requirement, the one chosen had the least number of overlapping access requirements at 1.\\
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=3in]{SingleAR_afterCopy_otherARnoted.jpg}
-\caption{The blue and gray access requirements before (top) and after (bottom) the copying}
-\label{singleARafterCopyOtherAR}
-\end{figure}
-
+{\bf Location to Copy:} Based on the above observation, given an access requirement, we can possibly move the beginning or the end data units of an access requirement to its interior. This will reduce its span, thus reducing the EST for the layout. However, if the new location of the data unit is in the span of other access requirements, it increases the span of those accesses by one unit. We thus want to find a location in the span of the access requirement under consideration but is in the span of the least number of other access requirements. Such a location is identified using a simple linear search through the span of the access requirement. \\
+\\
 {\bf Moving versus Copying:} A data unit can be accessed by multiple access
 requirements. If that data unit is an extremal unit for an access
 requirements, and if it is moved to its interior, it affects span of those access
