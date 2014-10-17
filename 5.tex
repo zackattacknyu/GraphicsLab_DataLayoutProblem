@@ -3,7 +3,7 @@
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=3.0in]{city.png}
+  \includegraphics[width=\columnwidth]{city.png}
   \caption{City model: 110 million triangle, 6 GB }
   \label{fig:model1}
 \end{figure}
@@ -17,7 +17,7 @@
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=3.0in]{densecity.jpg}
+  \includegraphics[width=\columnwidth]{densecity.jpg}
   \caption{Urban model: 100 million triangle, 12 GB }
   \label{fig:model3}
 \end{figure}
@@ -57,7 +57,7 @@ Figure \ref{fig:resultall} shows the results of delays caused by fetching data o
 It is clear that the performance of the layout with redundancy has generally shorter delays than the cache-oblivious layout without redundancy. As can be observed from the results, although the layout with redundancy does not eliminate delays for most of sample points on the walkthrough path, it reduces delays to a small range and keeps the performance more consistent. This is the benefit we get from using our algorithm which adds redundancy. Since the algorithm tends to eliminate seeks with longer seek time first, in practice the larger delays are avoided.
 \begin{figure}[ht]
 \centering
-\includegraphics[width=3.0in]
+\includegraphics[width=\columnwidth]
 {resultall.png}
   \caption{Statistics of delays caused by the fetching processes for the City model (top), the Boeing model (center), and
 the Urban model (bottom), with and without redundancy. }
@@ -66,7 +66,7 @@ the Urban model (bottom), with and without redundancy. }
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=3.0in]{statistic.png}
+\includegraphics[width=\columnwidth]{statistic.png}
   \caption{Plot of the ratio of the EST of layout with redundancy over the EST of cache-oblivious mesh layout without redundancy. }
   \label{fig:statistic}
 \end{figure} 
