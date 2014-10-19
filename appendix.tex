@@ -1,0 +1,28 @@
+\begin{appendix}
+
+\section{Linear Search Justification}
+
+In order to find the best place to copy a data unit, we perform a linear search within the span of the access requirement for location with the largest benefit. If $k$ is the span of the access requirement, then the linear search takes $O(k)$ query time. Updates will also be $O(k)$ time. Construction of the list of data units where each data unit stores the number of overlapping access requirements will be $O(N)$. There are other approaches, such as a range tree or dynamic programming, that may produce better query times, but their construction and update times will be worse as well as their storage. \\
+\\
+With dynamic programming, we would have to maintain a matrix where an entry
+$(i,j)$ would contain the minimum value in that range. This would give us a
+$O(1)$ query time but the construction and storage would be $O(N^2)$ where N is
+the number of data units. The update time would be $O(N)$ when we add a data
+unit. Since the $N$ for this problem domain is in the hundreds of millions,
+that is an unacceptable storage bound. The construction run time would also be
+prohibitive given the magnitude of our input. \\
+\\
+We could use a range tree. The initial binary search tree would be sorted by
+index and at each entry would be a pointer to a binary search tree sorted by
+value. If we put the min value at each of the nodes of the initial tree, we can
+speed up our queries. We would get a $O(log N)$ query time, but our
+construction time and storage would be $O(N log N)$. Updating the data
+structure would take at a minimum $O(k log(N))$ time if we do careful indexing
+and only update the nodes that need to be updated. If we have a large access
+requirement, then this would represent a significant improvement in query time.
+Given our exceptionally large input, however, the construction, storage, and
+update bounds are too prohibitive.  \\
+\\
+As it turns out, the common data structures that would be used for the finding the minimum value in an arbitrary part of a list are not practical for our purposes. Thus, while a simple linear search may seem inefficient at first, as it turns out it is the best option given our constraints. 
+
+\end{appendix}
