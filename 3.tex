@@ -87,13 +87,12 @@ You empty the $E_M$ heap first as long as the top of the heap is positive. After
 
 \begin{algorithm}
 Input: Data units and their access requirements (AR) \;
-Initialize heaps $E_M$ and $E_C$ \;
 \For{start and end unit of each AR i}{
 	Find optimal location $j$ for copy\;
 	Calculate $\Delta EST_M(i,j)$ and insert into $E_M$ \;
 	Calculate $\Delta EST_C(i,j)$ and insert into $E_C$ \;
 }
-\While{BREAK has not been called}{
+\While{{\bf true}}{
 		\While{top element of $E_M$ is positive}{
 			Pop top element and move the data unit to its destination \;
 			Update $E_M$ and $E_C$ \;
@@ -101,7 +100,7 @@ Initialize heaps $E_M$ and $E_C$ \;
 		\eIf{there is more space for redundancy}{
 		Pop top element and copy the data unit to its destination \;
 		Update $E_M$ and $E_C$ \;
-		}{ call BREAK}
+		}{{\bf break}}
 }
 \caption{Pseudo-code for our algorithm}
 \label{pseudocode}
