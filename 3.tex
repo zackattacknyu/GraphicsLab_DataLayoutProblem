@@ -94,15 +94,15 @@ Initialize heaps $E_M$ and $E_C$ \;
 	Calculate $\Delta EST_C(i,j)$ and insert into $E_C$ \;
 }
 \While{BREAK has not been called}{
-		\While{top of $E_M$ is positive}{
-			Take out random element and move the data unit\;
-			Update heap H and list L\;
+		\While{top element of $E_M$ is positive}{
+			Pop top element and move the data unit to its destination \;
+			Update affected AR's in $E_M$ and $E_C$\;
+			Reform $E_M$ and $E_C$ \;
 		}
 		\eIf{there is more space for redundancy}{
-		pop best element U from H\;
-		copy U to its destination\;
-		update nodes in H and entries in L for affected access requirements\;
-		update H and L\;
+		Pop top element and move the data unit to its destination \;
+		Update affected AR's in $E_M$ and $E_C$\;
+		Reform $E_M$ and $E_C$ \;
 		}{ call BREAK}
 }
 \caption{Pseudo-code for our algorithm}
