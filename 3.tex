@@ -64,21 +64,21 @@ argmax_j(\Delta EST_C(i,j))
 \]
 which signifies where the start or end data unit of the access requirement $i$ needs to be copied, using a simple linear search through the span of $i$. \\
 \\
-{\bf Assignment of Copies to Access Requirements:} The above operation would result in two copies of the same data unit, say $d_o$ and $d_n$. Clearly the new copy $d_n$ in location $j$ will be used by the access requirement $i$.  But $d_o$ could be accessed by
-multiple access requirements. All other access requirements that accesses $d_o$ can either continue to use $d_o$ or use $d_n$ depending on the overall effect on their span. Let $S$ be the set of access requirements whose span does not increase by using $d_n$ instead of $d_o$. Now the total benefit by copying the data unit $d_o$ of the access requirement $i$ to the new location $j$ is
+{\bf Assignment of Copies to Access Requirements:} The above operation would result in two copies of the same data unit, say $d_{old}$ and $d_{new}$. Clearly the new copy $d_{new}$ in location $j$ will be used by the access requirement $i$.  But $d_{old}$ could be accessed by
+multiple access requirements. All other access requirements that accesses $d_{old}$ can either continue to use $d_{old}$ or use $d_{new}$ depending on the overall effect on their span. Let $S$ be the set of access requirements whose span does not increase by using $d_{new}$ instead of $d_{old}$. Now the total benefit by copying the data unit $d_{old}$ of the access requirement $i$ to the new location $j$ is
 \begin{equation}
 \Delta EST_C(i,j) = \Delta A_i - k_j + \sum_{s\in S}\Delta{A_s}.
 \label{eq:copyingcost}
 \end{equation}
 \\
-{\bf: Moving versus Copying:}Let $T$ be the set of access requirements whose span will increase by accessing $d_n$ instead of $d_o$. Further, let $k_o$ be the number of access requirements in whose span $d_o$ is. If we force all the access requirements that uses $d_o$ to use $d_n$ and then delete $d_o$ -- in other words, if we move $d$ instead of copying -- then the benefit of this move would be given by
+{\bf Moving versus Copying:} Let $T$ be the set of access requirements whose span will increase by accessing $d_{new}$ instead of $d_{old}$. Further, let $k_{old}$ be the number of access requirements in whose span $d_{old}$ is. If we force all the access requirements that uses $d_{old}$ to use $d_{new}$ and then delete $d_{old}$ -- in other words, if we move $d$ instead of copying -- then the benefit of this move would be given by
 \[
- \Delta EST_M(i,j) = \Delta A_i - k_j + \sum_{s\in S}\Delta{A_s} + \sum_{t\in T}\Delta{A_t} + k_o
+ \Delta EST_M(i,j) = \Delta A_i - k_j + \sum_{s\in S}\Delta{A_s} + \sum_{t\in T}\Delta{A_t} + k_{old}
 \]
 \[
  \Delta EST_M(i,j) = \Delta EST_C(i,j) + \sum_{t\in T}\Delta{A_t} + k_o
 \]
-where $\Delta EST_M(i,j)$ gives the benefit of "moving" an end data unit of the access requirement $i$ to position $j$. Note that each of $\Delta A_t$ is negative. Hence the benefit of moving might be more or less than the benefit of copying depending on the relative values of $\sum_{t\in T}\Delta{A_t}$ and $k_o$. But the main advantage of moving instead of copying is that this operation does not increase the redundancy and keep the storage requirement the same. So we perform moving instead of copying as long as $\Delta EST_M(i,j)$ is positive or, in other words, reduces the total {\em EST} of the layout.\\
+where $\Delta EST_M(i,j)$ gives the benefit of {\it moving} a start or end data unit of the access requirement $i$ to position $j$. Note that each of $\Delta A_t$ is negative. Hence the benefit of moving might be more or less than the benefit of copying depending on the relative values of $\sum_{t\in T}\Delta{A_t}$ and $k_o$. But the main advantage of moving instead of copying is that this operation does not increase the redundancy thus it keeps the storage requirement the same. So we perform moving instead of copying as long as $\Delta EST_M(i,j)$ is positive or, in other words, reduces the total {\em EST} of the layout.\\
 \\
 {\bf Data Unit processing order:} 
 We now need to figure out how to use this
