@@ -56,6 +56,21 @@ on only one data block at a time. \\
 \\
 {\bf Location to Copy:} Based on the above observation, given an access requirement, we can possibly move the beginning or the end data units of an access requirement to its interior. This will reduce its span, thus reducing the EST for the layout. However, if the new location of the data unit is in the span of other access requirements, it increases the span of those accesses by one unit. We thus want to find a location in the span of the access requirement under consideration but is in the span of the least number of other access requirements. Such a location is identified using a simple linear search through the span of the access requirement. \\
 \\
+{\bf Assignment of Copies to Access Requirements:} The above operation would result in two copies of the same data unit, say $d_o$ and $d_n$. Clearly the new copy $d_n$ in location $j$ will be used by the access requirement $i$.  But $d_o$ could be accessed by
+multiple access requirements. All other access requirements that accesses $d_o$ can either continue to use $d_o$ or use $d_n$ depending on the overall effect on their span. Let $S$ be the set of access requirements whose span does not increase by using $d_n$ instead of $d_o$. Now the total benefit by copying the data unit $d_o$ of the access requirement $i$ to the new location $j$ is
+\begin{equation}
+ \delta EST_C(i,j) = \Delta A_i - k_j + \Sum_{s\in S}\Delta{A_s}.
+\label{eq:copyingcost}
+\end{equation}
+\\
+{\bf: Moving versus Copying 2:}Let $T$ be the set of access requirements whose span will increase by accessing $d_n$ instead of $d_o$. Further, let $k_o$ be the number of access requirements in whose span $d_o$ is. If we force all the access requirements that uses $d_o$ to use $d_n$ and then delete $d_o$ -- in other words, if we move $d$ instead of copying -- then the benefit of this move would be given by
+\begin{equation}
+ \Delta EST_M(i,j) = \Delta A_i - k_j + \Sum_{s\in S}\Delta{A_s} + \Sum_{t\in T}\Delta{A_t} + k_o \\
+ \Delta EST_M(i,j) = \Delta EST_M(i,j) + \Sum_{t\in T}\Delta{A_t} + k_o \\
+\label{eq:movingcost}
+\end{equation}
+where $\Delta EST_M(i,j)$ gives the benefit of "moving" an end data unit of the access requirement $i$ to position $j$. Note that each of $\Delta{A_t}$ is negative. Hence the benefit of moving might be more or less than the benefit of copying depending on the relative values of $\Sum_{t\in T}\Delta{A_t}$ and $k_o$. But the main advantage of moving instead of copying is that this operation does not increase the redundancy and keep the storage requirement the same. So we perform moving instead of copying as long as $\Delta EST_M(i,j)$ is positive or, in other words, reduces the total {\em EST} of the layout.\\
+\\
 {\bf Moving versus Copying:} A data unit can be accessed by multiple access
 requirements. If that data unit is an extremal unit for an access
 requirements, and if it is moved to its interior, it affects span of those access
