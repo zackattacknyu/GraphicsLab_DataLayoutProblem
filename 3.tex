@@ -51,13 +51,18 @@ We repeat this copying and possible deletion of individual data units until our 
 change by moving an interior data unit to another interior location. Cost can
 be reduced only by moving the data units that are at the either ends of the access
 requirement. This observation greatly reduces the search space of data units to
-consider for copying. For the sake of simplicity of the algorithm, we operate
+consider for copying. Additionally, for the sake of simplicity of the algorithm, we operate
 on only one data block at a time. \\
 \\
-{\bf Location to Copy:} Based on the above observation, given an access requirement, we can possibly move the beginning or the end data units of an access requirement to its interior. This will reduce its span, thus reducing the EST for the layout. However, if the new location of the data unit is in the span of other access requirements, it increases the span of those accesses by one unit. Let $j$ be the new location for the end data unit of an access requirement $i$. Let $\Delta A_i$ denote the change in the span of the access requirement $i$ by performing this copying operation. The span of all the access requirements in whose span the location $j$ lies would be increased by one. Let  $k_j$ denote the number of access requirements that overlap at location $j$.  The reduction in EST by performing this copying operation is given by 
+{\bf Location to Copy:} Based on the above observation, given an access requirement, we can possibly move the beginning or the end data units of an access requirement to its interior. This will reduce its span, thus reducing the EST for the layout. However, if the new location of the data unit is in the span of other access requirements, it increases the span of those accesses by one unit. Let $j$ be the new location for the start or end data unit of an access requirement $i$. Let $\Delta A_i$ denote the change in the span of the access requirement $i$ by performing this copying operation. With the access requirements whose span overlaps $j$, their span would be increased by one. Let  $k_j$ denote the number of access requirements that overlap at location $j$.  The reduction in EST by performing this copying operation is given by 
 \[ 
 \Delta EST_C(i,j) = \Delta A_i - k_j 
-\], where $C$ denotes "copying" the data unit for access requirement $i$ to the location $j$. We find the location $j$ that is $argmax_j(\Delta EST_C(i,j))$ to which the end data unit of the access requirement $i$ has to be copied, using a simple linear search through the span of $i$. \\
+\]
+where $C$ denotes {\it copying} the data unit for access requirement $i$ to the location $j$. We find the location $j$ that is 
+\[
+argmax_j(\Delta EST_C(i,j))
+\]
+which signifies where the start or end data unit of the access requirement $i$ needs to be copied, using a simple linear search through the span of $i$. \\
 \\
 {\bf Assignment of Copies to Access Requirements:} The above operation would result in two copies of the same data unit, say $d_o$ and $d_n$. Clearly the new copy $d_n$ in location $j$ will be used by the access requirement $i$.  But $d_o$ could be accessed by
 multiple access requirements. All other access requirements that accesses $d_o$ can either continue to use $d_o$ or use $d_n$ depending on the overall effect on their span. Let $S$ be the set of access requirements whose span does not increase by using $d_n$ instead of $d_o$. Now the total benefit by copying the data unit $d_o$ of the access requirement $i$ to the new location $j$ is
@@ -66,7 +71,7 @@ multiple access requirements. All other access requirements that accesses $d_o$ 
 \label{eq:copyingcost}
 \end{equation}
 \\
-{\bf: Moving versus Copying 2:}Let $T$ be the set of access requirements whose span will increase by accessing $d_n$ instead of $d_o$. Further, let $k_o$ be the number of access requirements in whose span $d_o$ is. If we force all the access requirements that uses $d_o$ to use $d_n$ and then delete $d_o$ -- in other words, if we move $d$ instead of copying -- then the benefit of this move would be given by
+{\bf: Moving versus Copying:}Let $T$ be the set of access requirements whose span will increase by accessing $d_n$ instead of $d_o$. Further, let $k_o$ be the number of access requirements in whose span $d_o$ is. If we force all the access requirements that uses $d_o$ to use $d_n$ and then delete $d_o$ -- in other words, if we move $d$ instead of copying -- then the benefit of this move would be given by
 \[
  \Delta EST_M(i,j) = \Delta A_i - k_j + \sum_{s\in S}\Delta{A_s} + \sum_{t\in T}\Delta{A_t} + k_o
 \]
@@ -74,20 +79,6 @@ multiple access requirements. All other access requirements that accesses $d_o$ 
  \Delta EST_M(i,j) = \Delta EST_C(i,j) + \sum_{t\in T}\Delta{A_t} + k_o
 \]
 where $\Delta EST_M(i,j)$ gives the benefit of "moving" an end data unit of the access requirement $i$ to position $j$. Note that each of $\Delta A_t$ is negative. Hence the benefit of moving might be more or less than the benefit of copying depending on the relative values of $\sum_{t\in T}\Delta{A_t}$ and $k_o$. But the main advantage of moving instead of copying is that this operation does not increase the redundancy and keep the storage requirement the same. So we perform moving instead of copying as long as $\Delta EST_M(i,j)$ is positive or, in other words, reduces the total {\em EST} of the layout.\\
-\\
-{\bf Moving versus Copying:} A data unit can be accessed by multiple access
-requirements. If that data unit is an extremal unit for an access
-requirements, and if it is moved to its interior, it affects span of those access
-requirements that use the
-same data unit. That is the main reason that we are copying and not moving
-these data units. 
-By copying the data unit the other access requirements can
-still access it in its old location. The only increase in span for those access requirements would possibly be an extra unit resulting from the copying itself but it would not come from having to use the new copy.
-Nevertheless, if by using the new copy the span of one or more of the other
-access requirements reduces, then those access requirements should use the new
-copy instead of the old copy. If all the access requirements use the new copy
-so that the old data block is not used by any access, then it can be deleted. In
-this later case, we are really moving the data block. \\
 \\
 {\bf Data Unit processing order:} 
 We now need to figure out how to use this
