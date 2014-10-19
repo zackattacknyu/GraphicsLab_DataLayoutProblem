@@ -71,15 +71,15 @@ the Urban model (bottom), with and without redundancy. }
   \label{fig:statistic}
 \end{figure} 
 
-There is another major benefit to our approach when compared to \cite{optimizingredundancy} in which the user does not have any control over the final redundancy factor. Since each time we duplicate one data unit, we can halt it when the redundancy factor reaches a certain threshold. This helps us create a data layout with arbitrary redundancy factor without worrying about exceeding the capacity of secondary storage devices. We use this fact to test different redundancy factors and see their results. In Figure \ref{fig:statistic}, we show the results of using layouts with redundancy factors that range from 1.0 to 10.0. The y-axis in this figure is the ratio of the estimated seek time (EST) of the layout with redundancy over the EST of the layout without redundancy. This value starts at 1.0 where redundancy factor is 1.0, meaning no redundancy, and decreases as redundancy factor goes larger. We can see that the rate of this decrement is not constant, and the benefits we gain at beginning are larger than the ones we get later. This implies that most of the performance improvement resides at the earlier phase of raising redundancy factor. This implies that it is worth to limit the redundancy factor used because after a certain point you are using much more secondary storage space without improving seek time by much. It also implies that our algorithm dramatically reduces seek time in practice by using only small redundancy factors. 
-
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]
 {comparison_to_lin_programming_all.pdf}
   \caption{Statistics of delays caused by the fetching processes for the City model (top), the Boeing model (center), and
-the Urban model (bottom), using integer programming or our method}
+the Urban model (bottom), using integer programming and our method}
   \label{fig:linProgramComparison}
-\end{figure} 
+\end{figure}
+
+When we compare our method to the one in \cite{optimizingredundancy}, there is a performance benefit that can be observed in Figure \ref{fig:linProgramComparison}. Additionally in \cite{optimizingredundancy}, the user does not have any control over the final redundancy factor however each time we duplicate one data unit, we can halt it if the redundancy factor reaches a certain threshold. This helps us create data layouts with arbitrary redundancy factors. We use this fact to test different redundancy factors and see their results. In Figure \ref{fig:statistic}, we show the results of using layouts with redundancy factors that range from 1.0 to 10.0. The y-axis in this figure is the ratio of the estimated seek time (EST) of the layout with redundancy over the EST of the layout without redundancy. This value starts at 1.0 where redundancy factor is 1.0, meaning no redundancy, and decreases as redundancy factor goes larger. We can see that the rate of this decrement is not constant, and the benefits we gain at beginning are larger than the ones we get later. This implies that most of the performance improvement resides at the earlier phase of raising redundancy factor. This implies that it is worthwhile to limit the redundancy factor used because after a certain point you are using much more secondary storage space without improving seek time by much. It also implies that our algorithm dramatically reduces seek time in practice by using only small redundancy factors. 
 
 
