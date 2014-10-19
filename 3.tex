@@ -80,9 +80,13 @@ multiple access requirements. All other access requirements that accesses $d_{ol
 \]
 where $\Delta EST_M(i,j)$ gives the benefit of {\it moving} a start or end data unit of the access requirement $i$ to position $j$. Note that each of $\Delta A_t$ is negative. Hence the benefit of moving might be more or less than the benefit of copying depending on the relative values of $\sum_{t\in T}\Delta{A_t}$ and $k_o$. But the main advantage of moving instead of copying is that this operation does not increase the redundancy thus it keeps the storage requirement the same. So we perform moving instead of copying as long as $\Delta EST_M(i,j)$ is positive or, in other words, reduces the total {\em EST} of the layout.\\
 \\
+{\bf Data Unit processing order:} We now need to figure out how to use this
+information to decide in what order the copying and moving should be done. Since the moving operation does not add space, we will perform those operations before copying the data units. We will make two heaps: $E_M$ and $E_C$. The $E_M$ heap will organize the move operations and consist of the values of $\Delta EST_M(i,j)$ for the start and end data units for all access requirements $i$ where the units are put in their optimal location $j$. The $E_C$ heap will be the same thing except it will organize the copy operations and consist of the values of $\Delta EST_C(i,j)$.
+
+ You empty $E_M$ heap first as long as the top of the heap is positive. For each removal and processing, you update $E_M$ and $E_C$ of the affected access requirements and update the corresponding heaps. If there are no more data unit whose $E_M$ is positive, then process the top of $E_C$. After processing one data unit copy from the top of heap $E_C$, the heaps $E_C$ and $E_M$ are again updated with new values for the affected access requirements. If this introduces an element in the top of $E_M$ heap with positive values, the $E_M$ heap is processed again.\\
+\\
 {\bf Data Unit processing order:} 
-We now need to figure out how to use this
-information to decide in what order the copying should be done. When considering the order we are only considering cases where we are copying and not the cases where we are moving. This is because copying adds a space cost so we need a way to decide in what order it should be done whereas moving does not have that cost. For each data
+ When considering the order we are only considering cases where we are copying and not the cases where we are moving. This is because copying adds a space cost so we need a way to decide in what order it should be done whereas moving does not have that cost. For each data
 unit, its total benefit is the amount that is reduces the total seek time
 ($EST$). For a given data unit to be copied to a specified location, let $k_i$
 be the benefit to access requirement $i$ that is attached to the data unit. We
