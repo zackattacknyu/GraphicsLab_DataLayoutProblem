@@ -2,7 +2,16 @@
 
 \section{Linear Search Justification}
 
-In order to find the best place to copy a data unit, we perform a linear search within the span of the access requirement for location with the largest benefit. If $k$ is the span of the access requirement, then the linear search takes $O(k)$ query time. Updates will also be $O(k)$ time. Construction of the list of data units where each data unit stores the number of overlapping access requirements will be $O(N)$. There are other approaches, such as a range tree or dynamic programming, that may produce better query times, but their construction and update times will be worse as well as their storage. \\
+In order to find the best place to copy a data unit, we perform a linear search
+within the span of the access requirement for location with the largest
+benefit.  The main reason why we use the linear search over other alternatives
+is its cheap update cost.  If $k$ is the span of the access requirement, then
+the linear search takes $O(k)$ query time. Updates will also be $O(k)$ time.
+Construction of the
+list of data units where each data unit stores the number of overlapping access
+requirements will be $O(N)$. There are other approaches, such as a range tree
+or dynamic programming, that may produce better query times, but their
+construction and update times will be worse as well as their storage. \\
 \\
 With dynamic programming, we would have to maintain a matrix where an entry
 $(i,j)$ would contain the minimum value in that range. This would give us a

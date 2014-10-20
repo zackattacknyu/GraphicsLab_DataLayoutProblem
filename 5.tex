@@ -1,25 +1,11 @@
 
 \section{Experimental Results}
 
-\begin{figure}[h!]
+\begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{city.png}
   \caption{City model: 110 million triangles, 6 GB }
   \label{fig:model1}
-\end{figure}
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=\columnwidth]{BoeingModel.pdf}
-  \caption{Boeing model: 350 million triangles, 20 GB. Overview of model (top) and model detail (bottom)}
-  \label{fig:model2}
-\end{figure}
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=\columnwidth]{densecity.jpg}
-  \caption{Urban model: 100 million triangles, 12 GB }
-  \label{fig:model3}
 \end{figure}
 
 
@@ -44,13 +30,17 @@ using only simple schemes for creating access requirements. Each model ended up
 having a separate scheme. Nonetheless, an access requirement represents a set
 of data that is highly likely to be accessed together. \\
 \\
-For the City model, a 2D grid is used to divide the space into square cells. For each pair of adjacent cells, the difference of the data is considered as an access requirement. By propagating this rule, access requirements are created, and the number of them is determined by the resolution of the grid \cite{singleseeklayout}.\\
-\\
 For the Boeing model, the predefined objects are used as a conceptual level to create access requirements. Samples of view positions are distributed across the model. For each sample, four fixed directions and four random directions are considered. Objects visible from this position in any one of these eight directions are added to access requirement for this specific sample. The density of these samples depends on the complexity of local occulders to reduce load of each access requirement, i.e. more samples are distributed to places with more complex geometry. \\
 \\
 The Urban model is different from the previous two in a way that it involves textures. Building heavy redundancy of textures increases the total size of the dataset significantly, while keeping textures away from redundancy leads to inevitable long seek time, which is completely against the philosophy of this work. To solve this problem, we applied a spatial Lloyd’s clustering \cite{lloydclustering} on objects. By moving centers of clusters, we look for a solution such that each cluster involves almost same amount of texture data. Between clusters, textures can be redundantly stored, but within each cluster, texture data are stored uniquely. In this way, each cluster is used as an access requirement.  \\
 \\
-The computation time to create redundancy layout is generally linearly correlated to the final redundancy factor for each model. For the examples we used in Figure \ref{fig:resultall}, it took 16 minutes to create the redundancy layout from the cache-oblivious layout without redundancy for the City model. This number is 80 minutes and 38 minutes for the Boeing model and the Urban model respectively. \\
+For the City model, a 2D grid is used to divide the space into square cells.
+For each pair of adjacent cells, the difference of the data is considered as an
+access requirement. By propagating this rule, access requirements are created,
+and the number of them is determined by the resolution of the grid
+\cite{singleseeklayout}.\\
+\\
+The computation time to create redundancy layout is generally linearly correlated to the final redundancy factor for each model. For the examples we used in Figure \ref{fig:resultall}, it took 16 minutes to create the redundancy layout from the cache-oblivious layout without redundancy for the City model. This number is 80 minutes and 38 minutes for the Boeing model and the Urban model, respectively. \\
 \\
 \textbf{Results:}
 Figure \ref{fig:resultall} shows the results of delays caused by fetching data on the experimental models we used. We compare the results of a cache-oblivious layout without redundancy and one with redundancy. For the layout with redundancy, we set the redundancy factor equal to 4.2. This factor was chosen because as can be seen in Figure \ref{fig:statistic}, it had considerably better performance than lower redundancy factors and did not have significantly worse performance than higher redundancy factors. A factor of 4.2 is also still practical, as the largest model we tested, the Boeing model, becomes 84 GB which is still acceptable given the large capacity of modern secondary storage devices.\\
@@ -60,8 +50,9 @@ It is clear that the performance of the layout with redundancy has generally sho
 \centering
 \includegraphics[width=\columnwidth]
 {comparison_to_COL_all.pdf}
-  \caption{Statistics of delays caused by the fetching processes for the City model (top), the Boeing model (center), and
-the Urban model (bottom), with and without redundancy. }
+  \caption{Statistics of delays caused by the fetching processes for the City
+model (top), the Boeing model (center), and the Urban model (bottom), with and
+without redundancy. COL indicates a Cache-Oblivious Layout that does not use any redundancy. R indicates the redundancy factor. }
   \label{fig:resultall}
 \end{figure} 
 
@@ -77,7 +68,7 @@ the Urban model (bottom), with and without redundancy. }
 \includegraphics[width=\columnwidth]
 {comparison_to_lin_programming_all.pdf}
   \caption{Statistics of delays caused by the fetching processes for the City model (top), the Boeing model (center), and
-the Urban model (bottom), using integer programming and our method}
+the Urban model (bottom), using integer programming and our method. \YOON{Use Ours instead of Performance Driven in the figure.}}
   \label{fig:linProgramComparison}
 \end{figure}
 

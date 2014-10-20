@@ -1,7 +1,25 @@
 
 \section{Analysis and Comparisons over Prior methods}
 
-In the algorithm, we make a list of data units that will reduce seek time by just moving instead of copying them. We perform these moves first before working with data units that need copying. This initial step will produce a better solution than proposed by \cite{cacheobliviouslayout} without adding extra units. This is because our algorithm will consider cases where data units are close to each other but in hierarchically different blocks in \cite{cacheobliviouslayout}. To show this, consider a case where we have two access requirements of 5 data units each. Figure \ref{YoonImprovement} shows an example of that kind of layout. In the middle of that figure is the result of using the cache oblivious layout. Because hierarchically it would arrange the units in each block and then arrange the blocks, it does not detect that the units with the black access requirement can be grouped together. On the other hand, the algorithm we propose would shorten the black access requirements without adding redundancy, as shown in the bottom of that figure.
+In the algorithm, we make a heap of data units that will reduce seek time by
+just moving instead of copying them. We perform these moves first before
+working with data units that need copying. This initial step will produce a
+better solution than proposed by \cite{cacheobliviouslayout} without adding
+redundant units. This result is possible mainly because our optimization
+algorithm searches wider sets of potential locations for moving cases in an
+efficient manner.
+%mowhere data
+%units are close to each other but in hierarchically different blocks in
+%\cite{cacheobliviouslayout}. 
+To show this, consider a case where we have two
+access requirements of 5 data units each. Figure \ref{YoonImprovement} shows an
+example of that kind of layout. In the middle of that figure is the result of
+using the cache oblivious layout. Because it hierarchically constructs blocks
+and arranges the units in each block, it does
+not detect that the
+units with the black access requirement can be grouped together. On the other
+hand, the algorithm we propose would shorten the black access requirements
+without adding redundancy, as shown in the bottom of that figure.
 
 \begin{figure}[ht]
 \centering
