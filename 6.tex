@@ -12,7 +12,7 @@ In the algorithm, we make a list of data units that will reduce seek time by jus
 
 The algorithm in \cite{cacheobliviouslayout} did not necessarily produce the best cache oblivious mesh layout. However, even if we had the best layout without redundancy, we would actually achieve a better seek time than it using redundancy. We have such an example with Figure \ref{fig:startingProb}. As can be seen in the figure, the total seek time is 7 units which turns out to be the minimum possible seek time without redundancy, as found through a brute-force search. With redundancy, the total seek time is the minimum required which is 6 units. While a reduction from 7 to 6 units may not seem dramatic, when this result is scaled up to the hundreds of millions, this makes a big difference in seek time, which we saw in practice.\\
 
-\begin{figure}[ht]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=\columnwidth]{DataLayoutPaper_TheoryLayouts.pdf}
 \caption{Data Units with varying access requirements on the top. It is laid out in its optimal layout without redundancy there. Its optimal layout with redundancy is shown at the bottom}
