@@ -31,15 +31,15 @@ sets of data units that are likely to be accessed together. \\
 Suppose that we have a linear ordering of data units that may eventually be the
 order in which they are stored in the hard drive.  Given an access requirement
 $A$, the total span of $A$ is the total number of data units between the first
-and last data units that use $A$. If a data unit is not required by $A$ but
-lies between the first and last unit of $A$ then it is still counted in the
+and last data units that use $A$. If a data unit is not required by $A$, but
+lies between the first and last unit of $A$, then it is still counted in the
 span of $A$. Figure \ref{singleAR} shows a linear order of data units and three
 different access requirements shown by solid, double-dashed and dotted lines.
 The span of an access requirement is the number of blocks between the first and
 the last data unit that use that access requirement. For example, for the
 access requirement shown with the solid line, the span is 11; the double-dashed
 line one has span 12, and the dotted line one has span 11. A data unit can be
-part of many access requirements. In the example shown in Figure 1, data units
+part of many access requirements. In the example shown in Figure \ref{singleAR}, data units
 1, 4 and 12 are part of two access requirements and data unit 9 is part of all
 three. \\ \\
 

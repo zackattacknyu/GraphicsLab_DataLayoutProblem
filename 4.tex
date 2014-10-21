@@ -2,20 +2,20 @@
 
 We now analyze the running time and storage requirements of our algorithm. Let
 $N$ be the number of data units and $A$ be the number of access requirements.
-We will use $k$ as the average span of a single access requirement. Let $r$ be the redundancy factor limit specified by the user so that $O(rN)$ units can be copied. For the sake of analysis each data unit will have $O(A)$ access requirements attached to it and $O(A)$ access requirement spans that overlap it even though the actual number will likely be lower in both cases. 
+We will use $m$ as the average span of a single access requirement. Let $r$ be the redundancy factor limit specified by the user so that $O(rN)$ units can be copied. For the sake of analysis each data unit will be used by $O(A)$ access requirements and at each location there will be $O(A)$ access requirements whose span overlaps it.
 
 {\bf Time Complexity:} The construction of the heaps $E_M$ and $E_C$ involves
 computing the benefit information for all $A$ access requirements and inserting
-each one into the heap. For a single access requirement, computing the benefit information of moving or copying one of its data units involves scanning each data unit in its span. This approach takes $O(k)$ operations. Calculating $\sum_{s\in S}\Delta{A_s}$ and $\sum_{t\in T}\Delta{A_t}$ will take $O(A)$ operations since there are $O(A)$ access requirements to potentially have to sum over. Inserting this
-benefit information into the heap takes $O(log (A))$ operations. In total then it takes $O(k + A + logA)$ or $O(k + A)$ operations per access requirement to get the benefit information. The initial construction thus takes $O(A(k+A))$ operations. \\
+each one into the heap. For a single access requirement, computing the benefit information of moving or copying one of its data units involves scanning each data unit in its span. This approach takes $O(m)$ operations. Calculating $\sum_{s\in S}\Delta{A_s}$ and $\sum_{t\in T}\Delta{A_t}$ will take $O(A)$ operations since there are $O(A)$ access requirements to potentially have to sum over. Inserting this
+benefit information into the heap takes $O(log (A))$ operations. In total then it takes $O(m + A + logA)$ or $O(m + A)$ operations per access requirement to get the benefit information. The initial construction thus takes $O(A(m+A))$ operations. \\
 \\
-After the initial construction, the move and copy loops are executed. In every iteration of move or copy, an element from the top of the heap is removed and processed, the benefit function is recalculated for affected access requirements, and the heap is updated. There are potentially $O(A)$ overlapping access requirements whose benefit information needs to be recalculated. As shown above, for each of these access requirements $O(k+A)$ operations are required to perform the recalculation and update the heap. Each iteration of move or copy thus takes a total of $O(A(k+A))$ operations.\\
+After the initial construction, the move and copy loops are executed. In every iteration of move or copy, an element from the top of the heap is removed and processed, the benefit function is recalculated for affected access requirements, and the heap is updated. There are potentially $O(A)$ overlapping access requirements whose benefit information needs to be recalculated. As shown above, for each of these access requirements $O(m+A)$ operations are required to perform the recalculation and update the heap. Each iteration of move or copy thus takes a total of $O(A(m+A))$ operations.\\
 \\
 For simplicity we will assume that the move loop runs $O(N)$ times total. This comes from the fact that the
 cache oblivious layout \cite{cacheobliviouslayout} should be a good
 approximation so the number of moves that would be useful should be
 limited. There are $O(rN)$ copies made so there are that many iterations of the copy loop. We thus
 can assert that there are $O(rN + N)$ iterations of the move or copy loops. We can simplify this to $O(rN)$ operations since $r \geq 1$. In total then the moving and copying loops will take
-$O(rNA (k + A))$ operations, which is also the running time for the whole algorithm. \\
+$O(rNA (m + A))$ operations, which is also the running time for the whole algorithm. \\
 \\
 {\bf Space Complexity:} During the run of the algorithm, we have to store the number of overlapping spans at each data unit, which will require $O(N)$ storage. We will also have to store a heap of access requirements, which can be stored using $O(A)$ space. We also have a list of access requirements and that information will take up $O(A)$ space. In total we thus have $O(A + N)$ storage space used during the run of the algorithm. 
