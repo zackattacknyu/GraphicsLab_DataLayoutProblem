@@ -6,8 +6,7 @@ We will use $k$ as the average span of a single access requirement. Let $r$ be t
 
 {\bf Time Complexity:} The construction of the heaps $E_M$ and $E_C$ involves
 computing the benefit information for all $A$ access requirements and inserting
-each one into the heap. For a single access requirement, computing the benefit information of moving or copying one of its data units involves scanning each data unit in its span. We justify
-this approach which takes $O(k)$ operations in Appendix A. Calculating $\sum_{s\in S}\Delta{A_s}$ and $\sum_{t\in T}\Delta{A_t}$ will take $O(A)$ operations since there are $O(A)$ access requirements to potentially have to sum over. Inserting this
+each one into the heap. For a single access requirement, computing the benefit information of moving or copying one of its data units involves scanning each data unit in its span. This approach takes $O(k)$ operations. Calculating $\sum_{s\in S}\Delta{A_s}$ and $\sum_{t\in T}\Delta{A_t}$ will take $O(A)$ operations since there are $O(A)$ access requirements to potentially have to sum over. Inserting this
 benefit information into the heap takes $O(log (A))$ operations. In total then it takes $O(k + A + logA)$ or $O(k + A)$ operations per access requirement to get the benefit information. The initial construction thus takes $O(A(k+A))$ operations. \\
 \\
 After the initial construction, the move and copy loops are executed. In every iteration of move or copy, an element from the top of the heap is removed and processed, the benefit function is recalculated for affected access requirements, and the heap is updated. There are potentially $O(A)$ overlapping access requirements whose benefit information needs to be recalculated. As shown above, for each of these access requirements $O(k+A)$ operations are required to perform the recalculation and update the heap. Each iteration of move or copy thus takes a total of $O(A(k+A))$ operations.\\
