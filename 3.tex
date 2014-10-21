@@ -57,21 +57,28 @@ requirement.  The span of the access requirement shown in the solid line is 11.
 
 
 \subsection{Seek Time Measure}
-Given a linear order of data units and the access requirements, and assuming
-that each access requirement is equally likely to be used, we would like to
+
+Given a linear order of data units and the access requirements, we would like to
 estimate the seek time for that application.  For each access requirement, the
 read head of the hard disk has to move from the first data block to the last
 irrespective of whether the intermediate blocks are read or skipped. Hence the
 span of an access requirement can be used as a measure of seek time - time
-taken to seek the last data unit starting from the first data unit.  Let $I$ be
+taken to seek the last data unit starting from the first data unit. We use a relative probabilistic measure to include the frequency of use of each access requirement.  Let $I$ be
 the set of access requirements and $A_i$ represent the span of the access
-requirement $i$.
-Based on this simple observation, Estimated total Seek Time (EST) is defined as:
-%given
-%by 
+requirement $i$. Let $p_i$ be the probability that $A_i$ will be used during rendering. We now define Estimated Seek Time (EST) as:
+\begin{equation}
+EST = \sum_{i\in I}p_i A_i
+\end{equation}
+In this paper, we assume all access requirements are equally likely to be used thus all $p_i$ values will be the same. We will use this to simplify the above equation to the following for our purposes.
 \[
 EST = \sum_{i \in I}{A_i}.
 \]
+It is important to note that the same measure can be used to describe the data transfer time. As mentioned earlier, whether the data between two required data units is read or skipped, the time taken to go from the first to the last required data unit is a measure of the delay caused by the disk. If all the intermediate data in the span is read, this time will be a measure of data transfer time, and if it is skipped, it is a measure of seek time. We assume that only the required data is read and use this measure to quantify seek time.  \\
+\\
+The seek time is also measured in other works \cite{optimizingredundancy,singleseeklayout} as number of seeks and not parameterized using the distance between the required data units. In this work, we model seek time as the distance between the data units and optimize this measure. Using this measure, we show better performance than earlier works.\\
+\\
+If we reduce the total EST in our optimization, then the average estimated seek time will be reduced. During optimization, we first  choose and process the access requirement with the maximum span. In the process, we not only reduce the average span, but also the maximum span, and hence the standard deviation in spans. This will in turn have an effect of providing consistent rendering performance with low data fetch delays as well as consistently small variation between such delays during rendering. \\
+\\
 It is interesting to note that \cite{cacheobliviouslayout}
 used span to measure the expected number of cache misses.  Typically, with
 every cache miss, the missing data will be sought in the disk and fetched, thus
