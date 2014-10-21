@@ -157,7 +157,18 @@ where $\Delta EST_M(i,j)$ gives the benefit of {\it moving} a start or end data 
 {\bf Data Unit processing order:} We now need to figure out how to use this
 information to decide in what order the copying and moving should be done. We will make two heaps: $E_M$ and $E_C$. The $E_M$ heap will organize the move operations and consist of the values of $\Delta EST_M(i,j)$ for the start and end data units for all access requirements $i$ where the units are put in their optimal location $j$. The $E_C$ heap will be the same thing except it will organize the copy operations and consist of the values of $\Delta EST_C(i,j)$.\\
 \\
-We process the $E_M$ heap first as long as the top of the heap is positive and effect the move of the data unit at the top of the heap. After each removal and processing, $\Delta EST_M$ and $\Delta EST_C$ of the affected access requirements and the corresponding heaps are updated. If there are no more data units where $\Delta EST_M$ is positive, then one element from the top of the heap $E_C$ is processed. After processing and copying a data unit from the top of heap $E_C$, the heaps $E_C$ and $E_M$ are again updated with new values for the affected access requirements. If this introduces an element in the top of $E_M$ heap with positive values, the $E_M$ heap is processed again. This process gets repeated until the user defined bound on redundancy factor is reached. As a summary, the psuedo-code of this algorithm is shown as algorithm \ref{pseudocode}.
+We process the $E_M$ heap first as long as the top of the heap is positive and
+effect the move of the data unit at the top of the heap. After each removal and
+processing, $\Delta EST_M$ and $\Delta EST_C$ of the affected access
+requirements and the corresponding heaps are updated. If there are no more data
+units where $\Delta EST_M$ is positive, then one element from the top of the
+heap $E_C$ is processed. After processing and copying a data unit from the top
+of heap $E_C$, the heaps $E_C$ and $E_M$ are again updated with new values for
+the affected access requirements. If this introduces an element in the top of
+$E_M$ heap with positive values, the $E_M$ heap is processed again. This
+process gets repeated until the user defined bound on redundancy factor is
+reached. As a summary, the pseudo-code of this algorithm is shown as algorithm
+\ref{pseudocode}.
 
 \begin{algorithm}[t]
 Input: Data units and their access requirements (AR) \;
