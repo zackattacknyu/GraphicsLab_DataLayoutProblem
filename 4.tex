@@ -12,11 +12,10 @@ benefit information into the heap takes $O(log (A))$ operations. In total then i
 \\
 After the initial construction, the move and copy loops are executed. In every iteration of move or copy, an element from the top of the heap is removed and processed, the benefit function is recalculated for affected access requirements, and the heap is updated. There are potentially $O(A)$ overlapping access requirements whose benefit information needs to be recalculated. As shown above, for each of these access requirements $O(k+A)$ operations are required to perform the recalculation and update the heap. Each iteration of move or copy thus takes a total of $O(A(k+A))$ operations.\\
 \\
-For simplicity we will assume that the loop where we move the data units
-instead of copying runs $O(N)$ times total. This comes from the fact that the
+For simplicity we will assume that the move loop runs $O(N)$ times total. This comes from the fact that the
 cache oblivious layout \cite{cacheobliviouslayout} should be a good
 approximation so the number of moves that would be useful should be
-limited. As stated above, there are $O(rN)$ copies made so there are that many iterations of the copy loop. We thus
+limited. There are $O(rN)$ copies made so there are that many iterations of the copy loop. We thus
 can assert that there are $O(rN + N)$ iterations of the move or copy loops. We can simplify this to $O(rN)$ operations since $r \geq 1$. In total then the moving and copying loops will take
 $O(rNA (k + A))$ operations, which is also the running time for the whole algorithm. \\
 \\
