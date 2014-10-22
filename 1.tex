@@ -45,13 +45,13 @@ to~\cite{pcmagarticle}, as of 2014, an HDD can cost \$0.08 per GB, while an SDD
 can cost \$0.60 per GB. As a result, optimizing components of walkthrough
 systems with HDDs is critical. In particular, addressing the seek time, the
 main bottleneck of accessing data from HDDs, remains the main challenge for
-interactive rendering of massive data sets. 
+interactive rendering of massive data sets. \\
 %In this paper, we leverage the
 %inexpensive nature of HDDs to store redundant copies of data in order to reduce
 %the seek time. 
-
-%\subsection{Redundancy based data layouts}
-
+\\
+There are generally two types of disk-based secondary storage devices. For devices with constant linear velocity (CLV), for example, Blu-ray, the seek speed is linearly dependent on the seek distance, the physical distance between data units. For devices with constant angular velocity (CAV), such as modern CDs and DVDs, most of the data is stored along the rim to enable faster seek time, so we can assume the seek speed is almost linear which respect to seek distance. In both cases, minimizing seek distance generally produces a data layout that will minimize seek time. \\
+\\
 In this paper, we leverage the inexpensive nature of HDDs to store redundant
 copies of data in order to reduce the seek time. Adding redundancy in order to
 improve the data access time is a classic approach, e.g.,
