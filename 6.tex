@@ -1,5 +1,5 @@
 
-\section{Analysis and Comparisons over Prior methods}
+\section{Cache Oblivious Layout With and Without Redundancy}
 
 In the algorithm, we make a heap of data units that will reduce seek time by
 just moving instead of copying them. We perform these moves first before
@@ -28,7 +28,7 @@ without adding redundancy, as shown in the bottom of that figure.
 \label{YoonImprovement}
 \end{figure}
 
-The algorithm in \cite{cacheobliviouslayout} did not necessarily produce the best cache oblivious mesh layout. However, even if we had the best layout without redundancy, we would actually achieve a better seek time than it using redundancy. We have such an example with Figure \ref{fig:startingProb}. As can be seen in the figure, the total seek time is 7 units which turns out to be the minimum possible seek time without redundancy, as found through a brute-force search. With redundancy, the total seek time is the minimum required which is 6 units. While a reduction from 7 to 6 units may not seem dramatic, when this result is scaled up to the hundreds of millions, this makes a big difference in seek time, which we saw in practice.\\
+The algorithm in \cite{cacheobliviouslayout} did not necessarily produce the best cache oblivious layout. However, even if we had the best layout without redundancy, we would actually achieve a better seek time using redundancy. We have such an example with Figure \ref{fig:startingProb}. As can be seen in the figure, the total seek time is 7 units which turns out to be the minimum possible seek time without redundancy, as found through a brute-force search. With redundancy, the total seek time is the minimum required which is 6 units. While a reduction from 7 to 6 units may not seem dramatic, when this result is scaled up to the hundreds of millions, this makes a big difference in seek time, which we saw in practice.\\
 
 \begin{figure}[h!]
 \centering
