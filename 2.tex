@@ -28,23 +28,18 @@ reduces the data fetch time. \\
 \\
 Redundancy based data layouts were mentioned in
 \cite{Patterson88,singleseeklayout,optimizingredundancy} as potential solutions
-to this problem of reducing seek time. In particular
-\cite{optimizingredundancy} presented an algorithm that limits the amount of
-redundancy required, but there were major drawbacks. First, it provides a
-grouping of data units for each seek, but it does not provide a data layout.
+to the problem of reducing seek time. In particular
+\cite{optimizingredundancy} presented a data layout algorithm based on integer programming specifically useful in walkthrough applications that models the seek time as the number of seeks to the beginning of different data groups. These data groups are the ones to be fetched to render one frame. However, there were major drawbacks. First, although it provides the data units to be grouped and considered as one seek, for each seek it does not provide a data layout.
 This is because it does not relate one data group with another.
 Such an approach could easily result in unnecessary data
-block duplications since groups of data units can overlap with each other. There is no mechanism in the integer programming solver to detect whether this redundancy is necessary because of some scene context or simply created blindly due to local optimization. The redundancy minimization is thus not modeled after
+block duplications since groups of data units can overlap with each other and only one copy of the common data unit may be required. There is no mechanism in the integer programming solver to detect whether this redundancy is necessary because of some scene context or simply created blindly due to local optimization. The redundancy minimization is thus not modeled after
 physical representation of the data layout on the disk. The second major
 drawback is that the model for seek time is also not based on physical reality.
 Typically, seek time depends on the relative distance on the disk between the
 last data unit accessed and the data unit currently being requested. However,
 in \cite{optimizingredundancy}, seek time is simplistically modeled,
-% as counting
-%the number of seeks, 
-independent of the number of data units between them. For example,
-%means that 
-irrespective of whether the requested data blocks are adjacent to
+ as number of data groups accessed for each fetch
+independent of the number of data units between these data groups. Irrespective of whether the requested data blocks are adjacent to
 each other or far apart, this model would assign the same cost for both
 layouts. Our approach
 aims to address these issues. 
