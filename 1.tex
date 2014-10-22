@@ -1,7 +1,7 @@
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{densecity.jpg}
-  \caption{Urban model: 100 million triangles, 12 GB. Using our method the walkthrough rendering performance for this model was significantly improved over existing methods. }
+  \caption{Urban model: 100 million triangles, 12 GB with textures. Using our redundancy based data layout method the walkthrough rendering speed for this model was improved by a factor of xx over existing methods. This model can now be rendered at a speed of XX fps using a machine with Y-GB main memory.}
   \label{fig:model3}
 \end{figure}
 
@@ -76,10 +76,10 @@ times.
 %\subsection{Main Contributions}
 {\bf Main contributions:}
 In this paper, we propose a model for seek time based on the actual
-number of units
-between the data blocks in the linear data layout. Using this model, and given
-the spatial proximity of the data set for a walkthrough application, we develop
-an algorithm to duplicate data blocks strategically to maximize the reduction
+number of data units
+between the requested data units in the linear data layout. Using this model, and given
+the data access requirements for a walkthrough application, we develop
+an algorithm to duplicate data units strategically to maximize the reduction
 in the seek time, while keeping the redundancy factor within the user defined
 bound. We will show that our greedy solution can generate both the extreme cases
 of data layout with redundancy, namely the maximum redundancy case
@@ -87,6 +87,6 @@ of data layout with redundancy, namely the maximum redundancy case
 cache oblivious mesh layout with a potentially high seek time), as well as
 reasonable solutions for redundancy factor constraints in between the extremes.
 We show that the
-implementation of our algorithm significantly reduces average delay between
+implementation of our algorithm significantly reduces average delay and the maximum delay between
 frames and noticeably improves the consistency of performance and
 interactivity.
