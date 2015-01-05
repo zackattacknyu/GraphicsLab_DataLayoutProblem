@@ -1,0 +1,73 @@
+%%% template.tex
+%%%
+%%% This LaTeX source document can be used as the basis for your technical
+%%% paper or abstract. Intentionally stripped of annotation, the parameters
+%%% and commands should be adjusted for your particular paper - title, 
+%%% author, article DOI, etc.
+%%% The accompanying ``template.annotated.tex'' provides copious annotation
+%%% for the commands and parameters found in the source document. (The code
+%%% is identical in ``template.tex'' and ``template.annotated.tex.'')
+
+\documentclass[conference]{acmsiggraph}
+
+\usepackage{authblk}
+\usepackage[]{algorithm2e}
+
+\TOGonlineid{45678}
+\TOGvolume{0}
+\TOGnumber{0}
+\TOGarticleDOI{1111111.2222222}
+\TOGprojectURL{}
+\TOGvideoURL{}
+\TOGdataURL{}
+\TOGcodeURL{}
+
+
+\usepackage{color}
+\newcommand{\YOON}[1]{
+	\textcolor{blue}{\bfseries{YOON's comment: {#1}}}
+}
+
+
+\title{Performance Driven Redundancy Optimization of Data Layouts for Walkthrough Applications}
+
+%\author[1]{Zachary DeStefano\thanks{zdestefa@uci.edu}}
+%\author[1]{Shan Jiang\thanks{sjiang1714@gmail.com}}
+%\author[1]{Gopi Meenakshisundaram\thanks{gopi.meenakshisundaram@gmail.com}}
+%\author[2]{Sung-Eui Yoon\thanks{toinsert}}
+%\pdfauthor{Zachary DeStefano,Shan Jiang,Gopi Meenakshisundaram,Sung-Eui Yoon}
+\pdfauthor{}
+\author{}
+%\affil[1]{University of California, Irvine}
+%\affil[2]{KAIST}
+
+\keywords{Data Layout Problem, Out-Of-Core Rendering, Cache Oblivious Mesh Layout, Redundant Data Layout, Walkthrough Application}
+
+\begin{document}
+
+%% \teaser{
+%%   \includegraphics[height=1.5in]{images/sampleteaser}
+%%   \caption{Spring Training 2009, Peoria, AZ.}
+%% }
+
+\maketitle
+
+\input{abstractExtended}
+
+
+%\begin{CRcatlist}
+%  \CRcat{I.3.6}{Computer Graphics}{Methodology and Techniques}{Graphics data structures and data types};
+%\end{CRcatlist}
+
+\keywordlist
+
+%% Use this only if you're preparing a technical paper to be published in the 
+%% ACM 'Transactions on Graphics' journal.
+
+\TOGlinkslist
+
+%% Required for all content. 
+
+\copyrightspace
+
+\end{document}
