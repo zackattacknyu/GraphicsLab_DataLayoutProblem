@@ -10,9 +10,11 @@ the redundancy factors of those layouts are prohibitively high.  In this paper,
 we develop a cost model for the seek time of a layout.  Based on this cost
 model, we propose an algorithm that computes a redundant data layout with the
 redundancy factor that is within the user specified bounds, while maximizing
-the performance of the system. Our data layout method can work with models with textures unlike most other methods. The interactive rendering speed of the walkthrough system was improved by a factor of 2-4 by using our data layout method when compared to existing methods with or without redundancy. \\
+the performance of the system. \\
 \\
 Our cost model assumes a linear ordering of the data units and data units which contain one or more access requirements. The seek time is then modeled as the sum of the spans of each of the access requirements. We seek to minimize the seek time. We start by using a heuristic to obtain an ordering of the data that is better than the initial ordering. We then proceed greedily and insert redundant data into the places where it will have the most impact on seek time. \\
+\\
+Our data layout method can work with models with textures unlike most other methods. The interactive rendering speed of the walkthrough system was improved by a factor of 2-4 by using our data layout method when compared to existing methods with or without redundancy. \\
 \\
 This algorithm produces significant advantages by using redundancy and this approach allows us to limit the amount of redundancy that is used to get an optimal seek time. We found this in practice. \\
 \\
