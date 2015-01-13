@@ -27,3 +27,55 @@ implementation of our algorithm significantly reduces average delay and the maxi
 frames and noticeably improves the consistency of performance and
 interactivity.
 
+\section{Redundancy-based Cache Oblivious Data Layout Algorithm}
+
+\subsection{Definitions}
+
+Let us assume that the walkthrough scene data, including all the levels of
+details of the model, are partitioned into equal sized data blocks (say 4KB)
+called data units. This is the atomic unit of data that is accessed and fetched
+from the disk. Typically, vertices and triangles that are located spatially
+closely (and belong to the same level of detail) have high chances of being
+rendered together, and hence can be grouped together in a data unit. All the
+data units required to render a scene from a viewpoint is labeled as an {\em
+access requirement}. There can be many different ways of defining access requirements and data
+units.  In general,
+the access requirements are determined by the application and are meant to be
+sets of data units that are likely to be accessed together. \\
+\\
+Suppose that we have a linear ordering of data units that may eventually be the
+order in which they are stored in the hard drive.  Given an access requirement
+$A$, the total span of $A$ is the total number of data units between the first
+and last data units that are used by $A$. If a data unit is not required by $A$, but
+lies between the first and last unit of $A$, then it is still counted in the
+span of $A$. 
+
+\subsection{Seek Time Measure}
+
+Given a linear order of data units and the access requirements, we would like to
+estimate the seek time for that application.  For each access requirement, the
+read head of the hard disk has to move from the first data block to the last
+irrespective of whether the intermediate blocks are read or skipped. Hence the
+span of an access requirement can be used as a measure of seek time - time
+taken to seek the last data unit starting from the first data unit. We assume all access requirements are equally likely to be used thus 
+our total estimated seek time will be as follows:
+\[
+EST = \sum_{i \in I}{A_i}.
+\]
+If we reduce the total EST in our optimization, then the average estimated seek time will be reduced. During optimization, we first  choose and process the access requirement with the maximum span. As a result, we not only reduce the average span, but also the maximum span, and hence the standard deviation in spans. This will in turn have an effect of providing consistent rendering performance with low data fetch delays as well as consistently small variation between such delays during rendering. 
+
+
+\subsection{Algorithm Overview}
+
+Given the access requirements and the data units, the goal of our algorithm is to compute a data layout that reduces EST. In \cite{cacheobliviouslayout}, the only allowed operation on the data units is
+the move operation and the optimal layout is computed using only that
+operation. For our purposes, we are allowed to copy data units, move them, and
+delete them if they are not used. Using these operations, we want minimize EST
+while also keeping the number of redundant copies as low as possible. After constructing a cache oblivious layout 
+of the data set to get an initial ordering of data units, we copy one data unit
+to another location. We reassign one or more of the access requirements that
+use the old copy of the data unit to the new copy making sure the EST is
+reduced.  If all the access requirements that used the old copy now use the
+new copy of the data unit, then the old copy is deleted.  We repeat this
+copying and possible deletion of individual data units until our redundancy
+limit has been reached. 
