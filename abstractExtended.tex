@@ -44,15 +44,15 @@ our total estimated seek time is the sum of the spans of all the access requirem
 
 \subsection{Algorithm Overview}
 
-Given the access requirements and the data units, the goal of our algorithm is to compute a data layout that reduces EST. In \cite{cacheobliviouslayout}, the only allowed operation on the data units is
-the move operation and the optimal layout is computed using only that
-operation. For our purposes, we are allowed to copy data units, move them, and
+Given the access requirements and the data units, the goal of our algorithm is to compute a data layout that reduces EST.  For our purposes, we are allowed to copy data units, move them, and
 delete them if they are not used. Using these operations, we want minimize EST
 while also keeping the number of redundant copies as low as possible. After constructing a cache oblivious layout 
 of the data set to get an initial ordering of data units, we copy one data unit
 to another location. We reassign one or more of the access requirements that
 use the old copy of the data unit to the new copy making sure the EST is
 reduced.  If all the access requirements that used the old copy now use the
-new copy of the data unit, then the old copy is deleted.  We repeat this
-copying and possible deletion of individual data units until our redundancy
-limit has been reached. 
+new copy of the data unit, then the old copy is deleted, and the data unit was really just moved.  We repeat this
+copying and moving of individual data units until our redundancy
+limit has been reached. \\
+\\
+When running the algorithm, we proceed in a greedy manner. We first move the data units as that operation does not need more storage space. We then only copy the data unit that will provide the most benefit in reducing seek time. We make sure it is copied to a place that will interrupt the least number of other access requirements. Using these steps, we are reducing seek time as best as we can at each step while minimizing the number of redundant units.
