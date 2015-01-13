@@ -5,8 +5,7 @@ In typical walkthrough systems, data sets consisting of hundreds of millions of
 triangles and many gigabytes of associated data (e.g. walking through a virtual
 city) are quite common. Rendering such massive amounts of data requires
 out-of-core rendering algorithms that bring only the required data for
-rendering into main memory from secondary storage. The time to transfer data between memory
-devices
+rendering into main memory from secondary storage. The time to transfer such data
 is known as seek time for our purposes. \\
 \\
 In this paper, we store redundant
@@ -24,35 +23,35 @@ implementation of our algorithm significantly reduces average delay and the maxi
 frames and noticeably improves the consistency of performance and
 interactivity.
 
-\section{Redundancy-based Cache Oblivious Data Layout Algorithm}
+\section{Redundancy-based Data Layout Algorithm}
 
 \subsection{Definitions}
 
 There can be many different ways of defining access requirements and data
 units. As an example the data units could contain vertices and triangles located near each other and the access requirements would contain the data units required to render a scene from a viewpoint. In general,
 the access requirements are determined by the application and are meant to be
-sets of data units that are likely to be accessed together. 
-
-\subsection{Seek Time Measure}
-
-Given a linear order of data units and the access requirements, we would like to
-estimate the seek time for that application.  For our seek time model, the
+sets of data units that are likely to be accessed together. \\
+\\
+For our seek time model, the
 span of an access requirement, number of units between its start and end unit, is used as a measure of seek time.
  We assume all access requirements are equally likely to be used thus 
-our total estimated seek time is the sum of the spans of all the access requirements. 
+our total Estimated Seek Time (EST) is the sum of the spans of all the access requirements. 
 
 
 \subsection{Algorithm Overview}
 
 Given the access requirements and the data units, the goal of our algorithm is to compute a data layout that reduces EST.  For our purposes, we are allowed to copy data units, move them, and
 delete them if they are not used. Using these operations, we want minimize EST
-while also keeping the number of redundant copies as low as possible. After constructing a cache oblivious layout 
-of the data set to get an initial ordering of data units, we copy one data unit
+while also keeping the number of redundant copies as low as possible. 
+After we have an initial ordering of data units, we copy one data unit
 to another location. We reassign one or more of the access requirements that
 use the old copy of the data unit to the new copy making sure the EST is
 reduced.  If all the access requirements that used the old copy now use the
 new copy of the data unit, then the old copy is deleted, and the data unit was really just moved.  We repeat this
 copying and moving of individual data units until our redundancy
-limit has been reached. \\
-\\
-When running the algorithm, we proceed in a greedy manner. We first move the data units as that operation does not need more storage space. We then only copy the data unit that will provide the most benefit in reducing seek time. We make sure it is copied to a place that will interrupt the least number of other access requirements. Using these steps, we are reducing seek time as best as we can at each step while minimizing the number of redundant units.
+limit has been reached. 
+
+\section{Results and Conclusion}
+
+In practice, the performance using the layout with redundancy has generally shorter delays than with the layout without redundancy. Although the layout with redundancy does not eliminate delays , it reduces delays to a small range and keeps the performance more consistent. We found that most of these benefits occured with small redundancy factors. There is a significant improvement in seek time when the redundancy factor is small. However, as you increase the redundancy factor afterward, the improvement in seek time decreases.
+
