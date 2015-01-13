@@ -5,15 +5,12 @@ In typical walkthrough systems, data sets consisting of hundreds of millions of
 triangles and many gigabytes of associated data (e.g. walking through a virtual
 city) are quite common. Rendering such massive amounts of data requires
 out-of-core rendering algorithms that bring only the required data for
-rendering into main memory from secondary storage. The time required to accomplish such a task
-is known as seek time for our purposes and it
-is the time taken to locate the beginning of the required data in the storage
-device. \\
+rendering into main memory from secondary storage. The time to transfer data between memory
+devices
+is known as seek time for our purposes. \\
 \\
 In this paper, we store redundant
-copies of data in order to reduce the seek time. We propose a model for seek time based on the actual
-number of data units
-between the requested data units in the linear data layout. Using this model, and given
+copies of data in order to reduce the seek time. After being given
 the data access requirements for a walkthrough application, we develop
 an algorithm to duplicate data units strategically to maximize the reduction
 in the seek time, while keeping the redundancy factor within the user defined
@@ -31,38 +28,18 @@ interactivity.
 
 \subsection{Definitions}
 
-Let us assume that the walkthrough scene data, including all the levels of
-details of the model, are partitioned into equal sized data blocks (say 4KB)
-called data units. This is the atomic unit of data that is accessed and fetched
-from the disk. Typically, vertices and triangles that are located spatially
-closely (and belong to the same level of detail) have high chances of being
-rendered together, and hence can be grouped together in a data unit. All the
-data units required to render a scene from a viewpoint is labeled as an {\em
-access requirement}. There can be many different ways of defining access requirements and data
-units.  In general,
+There can be many different ways of defining access requirements and data
+units. As an example the data units could contain vertices and triangles located near each other and the access requirements would contain the data units required to render a scene from a viewpoint. In general,
 the access requirements are determined by the application and are meant to be
-sets of data units that are likely to be accessed together. \\
-\\
-Suppose that we have a linear ordering of data units that may eventually be the
-order in which they are stored in the hard drive.  Given an access requirement
-$A$, the total span of $A$ is the total number of data units between the first
-and last data units that are used by $A$. If a data unit is not required by $A$, but
-lies between the first and last unit of $A$, then it is still counted in the
-span of $A$. 
+sets of data units that are likely to be accessed together. 
 
 \subsection{Seek Time Measure}
 
 Given a linear order of data units and the access requirements, we would like to
-estimate the seek time for that application.  For each access requirement, the
-read head of the hard disk has to move from the first data block to the last
-irrespective of whether the intermediate blocks are read or skipped. Hence the
-span of an access requirement can be used as a measure of seek time - time
-taken to seek the last data unit starting from the first data unit. We assume all access requirements are equally likely to be used thus 
-our total estimated seek time will be as follows:
-\[
-EST = \sum_{i \in I}{A_i}.
-\]
-If we reduce the total EST in our optimization, then the average estimated seek time will be reduced. During optimization, we first  choose and process the access requirement with the maximum span. As a result, we not only reduce the average span, but also the maximum span, and hence the standard deviation in spans. This will in turn have an effect of providing consistent rendering performance with low data fetch delays as well as consistently small variation between such delays during rendering. 
+estimate the seek time for that application.  For our seek time model, the
+span of an access requirement, number of units between its start and end unit, is used as a measure of seek time.
+ We assume all access requirements are equally likely to be used thus 
+our total estimated seek time is the sum of the spans of all the access requirements. 
 
 
 \subsection{Algorithm Overview}
