@@ -33,7 +33,7 @@ the access requirements are determined by the application and are meant to be
 sets of data units that are likely to be accessed together. \\
 \\
 For our seek time model, the
-span of an access requirement, number of units between its start and end unit, is used as a measure of seek time.
+span of an access requirement, number of units between its first and last unit in the linear order, is used as a measure of seek time.
  We assume all access requirements are equally likely to be used thus 
 our total Estimated Seek Time (EST) is the sum of the spans of all the access requirements. 
 
@@ -53,5 +53,5 @@ limit has been reached.
 
 \section{Results and Conclusion}
 
-In practice, the performance using the layout with redundancy has generally shorter delays than with the layout without redundancy. Although the layout with redundancy does not eliminate delays , it reduces delays to a small range and keeps the performance more consistent. We found that most of these benefits occured with small redundancy factors. There is a significant improvement in seek time when the redundancy factor is small. However, as you increase the redundancy factor afterward, the improvement in seek time decreases.
+In practice, the performance using the layout with redundancy has generally shorter delays than with the layout without redundancy. Although the layout with redundancy does not eliminate delays , it reduces delays to a small range and keeps the performance more consistent. Additionally, most of these benefits occurred with small redundancy factors. There is a significant improvement in seek time when the redundancy factor is small. However, as you increase the redundancy factor afterward, the improvement in seek time decreases.
 
